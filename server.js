@@ -10,7 +10,6 @@ const equipmentRoutes = require('./routes/equipmentRoutes');
 const reportsRoute = require('./routes/reportsRoute');
 const conflictRoutes = require('./routes/conflictRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-const express = require('express');
 
 dotenv.config();  // Load environment variables
 
@@ -35,12 +34,14 @@ app.use('/api/conflicts', verifyToken, conflictRoutes);
 app.use('/api/notifications', verifyToken, notificationRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!'); // or your actual home route response
-});
-// Start the server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  res.send('API is running...');
 });
 
+// ❌ REMOVE or COMMENT OUT app.listen() for Vercel
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+// ✅ EXPORT the app for Vercel
 module.exports = app;

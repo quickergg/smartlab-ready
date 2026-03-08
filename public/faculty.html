@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>SmartLab | Faculty Panel</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="dashboard-body">
+    <header class="header">
+      <div class="logo">
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <span class="icon">☰</span>
+        </button>
+      </div>
+      <h1>Welcome back, <span id="user-fullname">Loading...</span></h1>
+      <div class="academic-context">
+        <p id="academic-year">Loading... <span> | </span></p>
+        <p id="semester"><strong>Loading...</strong></p>
+      </div>
+      <!-- Notification Icon -->
+      <div class="notification-icon">
+        <button class="notification-btn" id="notification-btn">
+          <span class="icon">🔔</span>
+          <span class="notification-badge" id="notification-count">3</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="adminShell">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <img src="images/PUPLogo.png" alt="SmartLab Logo" />
+            <div class="sidebar-text">
+              <h2>smartlab.</h2>
+              <p>Office of the Department of Information</p>
+            </div>
+          </div>
+        </div>
+
+        <nav class="navList">
+          <button class="navItem active" data-tab="request">New Request</button>
+          <button class="navItem" data-tab="view-requests">
+            View Requests
+          </button>
+          <button class="navItem" data-tab="schedule">View Schedules</button>
+        </nav>
+
+        <div class="sidebar-profile">
+          <button class="profile-trigger" id="profile-trigger">
+            <div class="profile-avatar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <span class="profile-email" id="profile-email">Loading...</span>
+            <svg
+              class="profile-chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M5 7.5L10 12.5L15 7.5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Profile Dropdown Modal - MOVED OUTSIDE SIDEBAR -->
+      <div class="profile-dropdown hidden" id="profile-dropdown">
+        <div class="dropdown-profile">
+            <div class="profile-avatar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <span class="profile-email" id="dropdown-profile-email">Loading...</span>
+        </div>
+        <div class="profile-dropdown-header">
+          <div class="profile-badge">Faculty</div>
+        </div>
+        <div class="profile-dropdown-menu">
+          <button class="profile-menu-item" id="profile-settings-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                fill="currentColor"
+              />
+            </svg>
+            Profile Settings
+          </button>
+          <button class="profile-menu-item" id="change-password-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.65 10C11.83 7.67 9.61 6 7 6C3.69 6 1 8.69 1 12C1 15.31 3.69 18 7 18C9.61 18 11.83 16.33 12.65 14H17V18H21V14H23V10H12.65ZM7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12C9 13.1 8.1 14 7 14Z"
+                fill="currentColor"
+              />
+            </svg>
+            Change Password
+          </button>
+          <button
+            class="profile-menu-item profile-signout"
+            id="profile-signout-btn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.59L17 17L22 12L17 7ZM4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z"
+                fill="currentColor"
+              />
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <section class="content">
+        <!-- Borrow / Request Form -->
+        <div class="card tabPanel" id="tab-request">
+          <div class="cardHeader">
+            <h3>Borrow / Room Request Form</h3>
+          </div>
+        
+          <p class="note">
+            <strong>Note:</strong> Requests must be filed at least three (3) working days before the date needed.
+          </p>
+        
+          <form id="facultyRequestForm" class="row">
+            <div class="full">
+              <label>Particular/s</label>
+            
+              <div class="checkgrid">
+                <!-- LAB ROOM -->
+                <label class="chkRow">
+                  <input type="checkbox" id="labChk" />
+                  Laboratory Room/s
+                </label>
+               
+                <div class="labSelectWrap full hidden" id="labSelectWrap">
+                  <label class="muted small">Select Laboratory Room</label>
+                  <select id="labSelect">
+                    <option value="">-- Select Lab --</option>
+                    <option value="Lab 1">Lab 1</option>
+                    <option value="Lab 2">Lab 2</option>
+                    <option value="Lab 3">Lab 3</option>
+                  </select>
+                </div>
+                
+                <!-- EQUIPMENT -->
+                <div class="equipment-container" id="equipment-container">
+                  <!-- Equipment will be loaded dynamically from database -->
+                  <div class="loading-message">Loading equipment...</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label>Faculty in charge</label>
+              <select id="facultyIdSelect">
+                <option value="">-- Select Faculty --</option>
+                <!-- Faculty options will be loaded dynamically -->
+              </select>
+            </div>
+
+            <div>
+              <label>Select Program</label>
+              <select id="program-select" required>
+                <option value="">-- Select Program --</option>
+                <option value="BSIT">BSIT</option>
+                <option value="DIT">DIT</option>
+                <option value="BSEE">BSEE</option>
+              </select>
+            </div>
+            
+            <div>
+              <label>Year Level</label>
+              <select id="year-select" required>
+                <option value="">-- Select Year Level --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          
+            <div>
+              <label>Subject</label>
+              <input type="text" id="subject" required />
+            </div>
+          
+            <div>
+              <label>Date of Use</label>
+              <input type="date" id="dateNeeded" required />
+              <small id="dateNeeded-error" class="error" style="color: red; font-size: 12px; margin-top: 4px; display: block;"></small>
+            </div>
+          
+            <div>
+              <label>Room / Location</label>
+              <input type="text" id="location" placeholder="Room 206, etc." />
+            </div>
+          
+            <div class="split-row">
+              <div>
+                <label>Time Start</label>
+                <input type="time" id="timeStart" min="07:30" max="21:00" step="1800" required />
+                <small id="timeStart-error" class="error" style="color: red; font-size: 12px; margin-top: 4px; display: block;"></small>
+              </div>
+              <div>
+                <label>Time End</label>
+                <input type="time" id="timeEnd" min="07:30" max="21:00" step="1800" required />
+                <small id="timeEnd-error" class="error" style="color: red; font-size: 12px; margin-top: 4px; display: block;"></small>
+              </div>
+            </div>
+          
+            <div>
+              <label>Contact Details</label>
+              <input type="text" id="contactDetails" required />
+            </div>
+          
+            <div class="full">
+              <label for="purpose">Purpose</label>
+              <textarea
+                id="purpose"
+                rows="4"
+                placeholder="Please describe the purpose..."
+                required
+              ></textarea>
+            </div>
+          
+            <div class="actions full">
+              <button type="button" class="btn" id="newRequestBtn">Request New</button>
+              <button type="button" class="btn btnDanger" id="cancelBtn">Cancel</button>
+              <button type="submit" class="btn btnPrimary">Submit Request</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- View Requests -->
+        <div class="card tabPanel hidden" id="tab-view-requests">
+          <div class="cardHeader">
+            <h3>My Requests</h3>
+          </div>
+        
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date Filed</th>
+                  <th>Room</th>
+                  <th>Equipment</th>
+                  <th>Date of Use</th>
+                  <th>Time</th>
+                  <th>Note</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+            
+              <!-- dynamic -->
+              <tbody id="my-requests-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Lab Schedule -->
+        <div class="card tabPanel hidden" id="tab-schedule">
+          <div class="cardHeader">
+            <h3>Manage Lab Schedule</h3>
+          
+            <div class="header-actions">
+              <div class="filter-group">
+                <label for="lab-filter" class="sr-only">Filter by Lab:</label>
+                <select id="lab-filter" class="filter-select">
+                  <option value="all">All Laboratories</option>
+                  <option value="Lab 1">Laboratory 1</option>
+                  <option value="Lab 2">Laboratory 2</option>
+                  <option value="Lab 3">Laboratory 3</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Lab</th>
+                  <th>Faculty</th>
+                  <th>Section</th>
+                  <th>Year</th>
+                  <th>Subject</th>
+                  <th>Day</th>
+                  <th>Time Start</th>
+                  <th>Time End</th>
+                </tr>
+              </thead>
+            
+              <!-- Dynamic rows injected here -->
+              <tbody id="lab-schedule-body">
+                <tr>
+                  <td colspan="8" style="text-align:center;">
+                    Loading schedules...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="star3-bg">
+          <img src="images/Star.svg" alt="Blur Star Background" />
+        </div>
+      </section>
+    </main>
+
+    <!-- Core utilities -->
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/core.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/core/profileDropdown.js" defer></script>
+    <script src="js/core/inputValidator.js" defer></script>
+    <script src="js/core/borrowRequestForm.js" defer></script>
+
+    <!-- Features -->
+    <script src="js/features/manageLabSchedule.js"></script>
+
+    <!-- Page controller -->
+    <script src="js/pages/faculty.js" defer></script>
+  </body>
+</html>

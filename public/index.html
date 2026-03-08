@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLab | PUP Lopez - Laboratory Management System</title>
+
+    <meta
+      name="description"
+      content="SmartLab: Laboratory equipment borrowing and scheduling system for PUP Lopez Campus."
+    />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="homepage.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <!-- Header / Navigation -->
+    <header class="header">
+      <a class="logo" href="#home" aria-label="Go to home">
+        <img src="images/PUPLogo.png" alt="PUP Lopez Logo" />
+        <h2>SmartLab</h2>
+      </a>
+
+      <nav class="navigation" aria-label="Primary">
+        <ul>
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li class="separator" aria-hidden="true">|</li>
+          <li><a href="#login" class="nav-link login-link">Sign In</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="intro-section" id="home">
+        <div class="intro-badge fade-up">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          PUP Lopez Campus
+        </div>
+
+        <h1 class="fade-up fade-up-d1">
+          Smart Laboratory<br />
+          <span class="highlight">Management System</span>
+        </h1>
+
+        <p class="fade-up fade-up-d2">
+          Streamline equipment borrowing, room scheduling, and lab operations
+          through one centralized platform built for students, faculty, and administrators.
+        </p>
+
+        <div class="hero-actions fade-up fade-up-d3">
+          <a href="#login" class="btn-primary">
+            Get Started
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#features" class="btn-secondary">
+            Learn More
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </a>
+        </div>
+      </section>
+
+      <!-- Stats Strip -->
+      <div class="stats-strip fade-up fade-up-d4">
+        <div class="stat-item">
+          <div class="stat-number">3</div>
+          <div class="stat-label">User Roles</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">System Access</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Real-time</div>
+          <div class="stat-label">Conflict Detection</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Digital Records</div>
+        </div>
+      </div>
+
+      <!-- Features Section -->
+      <section class="features-section" id="features">
+        <div class="section-header">
+          <div class="section-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Features
+          </div>
+          <h2>Everything You Need to<br />Manage Your Laboratory</h2>
+          <p>Built to simplify every step of the lab management process — from borrowing equipment to scheduling rooms.</p>
+        </div>
+
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon maroon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>Secure Authentication</h3>
+            <p>Role-based access for students, faculty, and administrators ensures the right people access the right tools.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon gold">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <h3>Smart Scheduling</h3>
+            <p>Automatic conflict detection prevents double-booking and overlapping reservations across all lab rooms.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon teal">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <h3>Reports &amp; Export</h3>
+            <p>Generate PDF and CSV reports for equipment usage, borrowing history, and scheduling records on demand.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon gold">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            </div>
+            <h3>Equipment Tracking</h3>
+            <p>Monitor laboratory equipment inventory, track borrowing status, and manage returns through a centralized dashboard.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon maroon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3>Multi-Role Dashboards</h3>
+            <p>Dedicated interfaces for admins, faculty, and students — each tailored with the tools and views they need.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon teal">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Real-time Updates</h3>
+            <p>Instant status updates on requests, approvals, and schedule changes keep everyone informed and in sync.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="about-section" id="about">
+        <div class="about-container">
+          <div class="about-left">
+            <h2>About<br />SmartLab</h2>
+            <div class="gold-line"></div>
+            <p class="about-institution">
+              Polytechnic University of the Philippines<br />
+              Lopez, Quezon Campus<br />
+              Bachelor of Science in Information Technology
+            </p>
+          </div>
+
+          <div class="about-text">
+            <p>
+              SmartLab is a web-based laboratory management system developed for PUP Lopez Campus. It provides a centralized platform for managing equipment borrowing, room scheduling, and laboratory operations — replacing manual processes with a streamlined digital workflow.
+            </p>
+
+            <p>
+              The system features automatic conflict detection for schedules, real-time equipment tracking, and role-based access for students, faculty, and administrators. Every request is validated, logged, and traceable.
+            </p>
+
+            <p>
+              Developed by students of the Bachelor of Science in Information Technology, SmartLab reflects the university's commitment to innovation and operational efficiency in academic laboratory management.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Login Section -->
+      <section class="login-section" id="login">
+        <div class="login-card">
+          <div class="login-logo">
+            <img src="images/PUPLogo.png" alt="PUP Lopez Logo" />
+          </div>
+          <h2>Welcome Back</h2>
+          <p class="login-subtext">
+            Sign in to your SmartLab account to continue.
+          </p>
+
+          <div id="sessionExpiredMsg" class="session-expired-alert hidden" role="alert">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Your session has expired. Please log in again.
+          </div>
+
+          <form id="loginForm" novalidate>
+            <label for="gmail">Email Address</label>
+            <input
+              type="email"
+              id="gmail"
+              name="gmail"
+              placeholder="you@example.com"
+              autocomplete="username"
+              required
+            />
+
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                required
+              />
+            
+              <button
+                type="button"
+                class="password-toggle"
+                id="togglePassword"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <!-- Eye (show) -->
+                <svg class="icon-eye icon-eye-open" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M12 5c-7 0-10 7-10 7s3 7 10 7 10-7 10-7-3-7-10-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2.5A2.5 2.5 0 1 0 12 9a2.5 2.5 0 0 0 0 5.5z"
+                  />
+                </svg>
+              
+                <!-- Eye-off (hide) -->
+                <svg class="icon-eye icon-eye-closed" viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    fill="currentColor"
+                    d="M2.1 3.5 3.5 2.1l18.4 18.4-1.4 1.4-2.5-2.5c-1.7.9-3.6 1.6-6 1.6-7 0-10-7-10-7 1-2.2 2.6-4.4 4.9-5.8L2.1 3.5zm7.2 7.2a3 3 0 0 0 4.2 4.2l-4.2-4.2zM12 7c3.9 0 6.5 3 7.7 5-.5 1-1.4 2.4-2.7 3.5l-1.5-1.5A5 5 0 0 0 9.5 8.5L8 7c1.1-.3 2.4-.5 4-.5z"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <p
+              id="errorMsg"
+              class="login-error hidden"
+              role="alert"
+              aria-live="polite"
+            >
+              Invalid email or password.
+            </p>
+
+            <button type="submit" class="login-btn">
+              Sign In
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+
+          <p class="login-footer">
+            PUP Lopez Campus &middot; Bachelor of Science in Information Technology
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-brand">
+        <img src="images/PUPLogo.png" alt="PUP Logo" />
+        <h3>SmartLab</h3>
+      </div>
+      <p>Laboratory Equipment Borrowing and Scheduling System</p>
+      <p>Polytechnic University of the Philippines — Lopez, Quezon Campus</p>
+      <div class="footer-divider"></div>
+      <span>&copy; 2026 SmartLab &middot; Bachelor of Science in Information Technology</span>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/shared/js/core/SmartLabCore.js" defer></script>
+    <script src="/shared/js/pages/login.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('session') === 'expired') {
+          const el = document.getElementById('sessionExpiredMsg');
+          if (el) el.classList.remove('hidden');
+          // Scroll to login section
+          document.getElementById('login')?.scrollIntoView({ behavior: 'smooth' });
+          // Clean URL without reload
+          history.replaceState(null, '', '/index.html');
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<style>
+/* ── Admin Settings Page ─────────────────── */
+.admin-settings-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.admin-settings-page .settings-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.admin-settings-page .settings-header svg {
+    color: var(--red-color, #c10305);
+}
+
+.admin-settings-page .settings-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.admin-settings-page .settings-header p {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin: 0.15rem 0 0;
+}
+
+.admin-settings-page .settings-section {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.admin-settings-page .settings-section h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.25rem;
+}
+
+.admin-settings-page .settings-section h3 svg {
+    color: var(--red-color, #c10305);
+    flex-shrink: 0;
+}
+
+.admin-settings-page .setting-desc {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin: 0 0 1rem;
+}
+
+.admin-settings-page .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.admin-settings-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.admin-settings-page .form-group label {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.admin-settings-page .form-group select,
+.admin-settings-page .form-group input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #1f2937;
+    background: white;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.admin-settings-page .form-group select:focus,
+.admin-settings-page .form-group input:focus {
+    border-color: var(--red-color, #c10305);
+    box-shadow: 0 0 0 2px rgba(128, 0, 0, 0.08);
+}
+
+.admin-settings-page .select-with-add {
+    display: flex;
+    gap: 0.4rem;
+    align-items: stretch;
+}
+
+.admin-settings-page .select-with-add select {
+    flex: 1;
+}
+
+.admin-settings-page .btn-add-inline {
+    padding: 0 0.65rem;
+    background: var(--red-color, #c10305);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    line-height: 1;
+    transition: background 0.2s;
+}
+
+.admin-settings-page .btn-add-inline:hover {
+    background: #a00204;
+}
+
+.admin-settings-page .current-context {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.85rem;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+.admin-settings-page .current-context .ctx-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.admin-settings-page .current-context .ctx-value {
+    color: #1f2937;
+    font-weight: 600;
+}
+
+.admin-settings-page .form-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.admin-settings-page .btn-save {
+    padding: 0.55rem 1.5rem;
+    background: var(--red-color, #c10305);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.admin-settings-page .btn-save:hover {
+    background: #a00204;
+}
+
+.admin-settings-page .btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Message banner */
+.admin-settings-page .settings-message {
+    display: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+
+.admin-settings-page .settings-message.success {
+    display: block;
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.admin-settings-page .settings-message.error {
+    display: block;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+@media (max-width: 600px) {
+    .admin-settings-page .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="admin-settings-page" id="admin-settings-page">
+    <!-- Message banner -->
+    <div class="settings-message" id="settings-message"></div>
+
+    <!-- Header -->
+    <div class="settings-header">
+        <div>
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline; vertical-align: -3px; margin-right: 4px;">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                Admin Settings
+            </h2>
+            <p>Manage global system configurations</p>
+        </div>
+    </div>
+
+    <!-- Academic Context -->
+    <div class="settings-section">
+        <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Active Academic Context
+        </h3>
+        <p class="setting-desc">This setting affects all schedules, borrow requests, and reports system-wide.</p>
+
+        <div class="current-context" id="admin-current-context">
+            <span class="ctx-label">Current:</span>
+            <span class="ctx-value" id="admin-context-display">Loading...</span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="admin-academic-year">Academic Year</label>
+                <div class="select-with-add">
+                    <select id="admin-academic-year"></select>
+                    <button type="button" class="btn-add-inline" id="btn-add-year" title="Add new academic year">+</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="admin-term">Semester / Term</label>
+                <select id="admin-term"></select>
+            </div>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="btn-save" id="admin-save-context-btn">Update Academic Context</button>
+        </div>
+    </div>
+</div>

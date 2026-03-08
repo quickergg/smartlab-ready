@@ -1,0 +1,1139 @@
+<div class="schedule-page fade-in">
+    <div class="card">
+        <div class="cardHeader">
+            <h3>Lab Schedule</h3>
+            <div class="cardHeader-actions">
+                <div id="academic-context-filter"></div>
+                <button class="btn btn-primary" id="add-schedule-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Add Schedule
+                </button>
+            </div>
+        </div>
+        
+        <div class="cardBody">
+            <!-- View Toggle Tabs -->
+            <div class="schedule-view-toggle">
+                <button class="view-tab active" data-view="table">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Table View
+                </button>
+                <button class="view-tab" data-view="chart">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Chart View
+                </button>
+                <button class="view-tab" data-view="calendar">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Calendar
+                </button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-bar-row">
+                    <div class="search-box">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="schedule-search" class="search-input" placeholder="Search by faculty, subject, or program...">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="lab-filter" class="filter-select-control">
+                            <option value="">All Labs</option>
+                            <!-- Dynamically populated -->
+                        </select>
+                        <select id="day-filter" class="filter-select-control">
+                            <option value="">All Days</option>
+                            <option value="MONDAY">Monday</option>
+                            <option value="TUESDAY">Tuesday</option>
+                            <option value="WEDNESDAY">Wednesday</option>
+                            <option value="THURSDAY">Thursday</option>
+                            <option value="FRIDAY">Friday</option>
+                            <option value="SATURDAY">Saturday</option>
+                        </select>
+                        <select id="faculty-filter" class="filter-select-control">
+                            <option value="">All Faculty</option>
+                            <!-- Dynamically populated -->
+                        </select>
+                        <select id="status-filter" class="filter-select-control">
+                            <option value="">All Status</option>
+                            <option value="recurring">Recurring</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="expired">Expired</option>
+                        </select>
+                        <select id="schedule-sort" class="filter-select-control">
+                            <option value="day-time">Day &amp; Time</option>
+                            <option value="lab-asc">Lab (A-Z)</option>
+                            <option value="faculty-asc">Faculty (A-Z)</option>
+                            <option value="subject-asc">Subject (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-bar-row">
+                    <div class="filter-meta">
+                        <span id="schedule-results-count" class="results-count"></span>
+                        <button class="clear-filters-btn" id="schedule-clear-filters-btn" title="Clear all filters">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="active-filters" id="schedule-active-filters">
+                    <!-- Active filter tags rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="schedule-stats">
+                <div class="stat-card">
+                    <div class="stat-icon total-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="total-schedules-count">0</h4>
+                        <p>Total Schedules</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon labs-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="active-labs-count">0</h4>
+                        <p>Active Labs</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon faculty-stat-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="total-faculty-count">0</h4>
+                        <p>Faculty Assigned</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon subjects-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="total-subjects-count">0</h4>
+                        <p>Subjects</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table View -->
+            <div class="schedule-table-view" id="schedule-table-view">
+                <div class="table-responsive">
+                    <table class="table" id="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Lab</th>
+                                <th>Faculty</th>
+                                <th>Section</th>
+                                <th>Year</th>
+                                <th>Subject</th>
+                                <th>Day</th>
+                                <th>Time Start</th>
+                                <th>Time End</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-table-body">
+                            <!-- Schedule will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Calendar View -->
+            <div class="schedule-calendar-view hidden" id="schedule-calendar-view">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="btn btn-icon" id="cal-prev-month" title="Previous month">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15,18 9,12 15,6"></polyline>
+                            </svg>
+                        </button>
+                        <div class="calendar-title-group">
+                            <h4 id="cal-month-label">January 2024</h4>
+                            <button class="cal-today-btn" id="cal-today-btn">Today</button>
+                        </div>
+                        <button class="btn btn-icon" id="cal-next-month" title="Next month">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,18 15,12 9,6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="calendar-weekday-headers">
+                        <div class="cal-wday-header">Sun</div>
+                        <div class="cal-wday-header">Mon</div>
+                        <div class="cal-wday-header">Tue</div>
+                        <div class="cal-wday-header">Wed</div>
+                        <div class="cal-wday-header">Thu</div>
+                        <div class="cal-wday-header">Fri</div>
+                        <div class="cal-wday-header">Sat</div>
+                    </div>
+
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Month day cells rendered by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-pagination" id="schedule-pagination">
+                <!-- Pagination will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ── View Toggle Tabs ─────────────────────── */
+.schedule-page .schedule-view-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1rem;
+    background: #f3f4f6;
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+}
+
+.schedule-page .view-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.schedule-page .view-tab:hover {
+    color: #374151;
+    background: rgba(255,255,255,0.5);
+}
+
+.schedule-page .view-tab.active {
+    background: white;
+    color: var(--red-color, #c10305);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.schedule-page .dev-badge {
+    font-size: 0.6rem;
+    padding: 1px 5px;
+    background: #fef3c7;
+    color: #92400e;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ── Filter Bar ───────────────────────────── */
+.schedule-page .filter-bar {
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.schedule-page .filter-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.schedule-page .search-box {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.schedule-page .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.schedule-page .search-input {
+    width: 100%;
+    padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.schedule-page .search-input:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+    box-shadow: 0 0 0 3px rgba(128,0,0,0.08);
+}
+
+.schedule-page .filter-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.schedule-page .filter-select-control {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    color: #374151;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    min-width: 130px;
+}
+
+.schedule-page .filter-select-control:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+}
+
+.schedule-page .filter-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.schedule-page .results-count {
+    font-size: 0.825rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.schedule-page .clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.7rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.schedule-page .clear-filters-btn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+.schedule-page .active-filters {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    min-height: 0;
+}
+
+.schedule-page .active-filters:empty {
+    display: none;
+}
+
+.schedule-page .filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 99px;
+    font-size: 0.775rem;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.schedule-page .filter-tag-label {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.schedule-page .filter-tag-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+    line-height: 1;
+}
+
+.schedule-page .filter-tag-remove:hover {
+    color: #dc2626;
+}
+
+/* ── Stats Cards ──────────────────────────── */
+.schedule-page .schedule-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.schedule-page .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.schedule-page .stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.schedule-page .stat-icon.total-icon { background: #6366f1; }
+.schedule-page .stat-icon.labs-icon { background: #3b82f6; }
+.schedule-page .stat-icon.faculty-stat-icon { background: #8b5cf6; }
+.schedule-page .stat-icon.subjects-icon { background: #10b981; }
+
+.schedule-page .stat-info h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.schedule-page .stat-info p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+/* ── Table ────────────────────────────────── */
+.schedule-page .table-responsive {
+    overflow-x: auto;
+}
+
+.schedule-page .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.schedule-page .table th,
+.schedule-page .table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-page .table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.schedule-page .table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.schedule-page .table tbody tr {
+    cursor: pointer;
+}
+
+.schedule-page .actions-cell,
+.schedule-page .actions-cell .action-buttons,
+.schedule-page .actions-cell .btn-icon {
+    cursor: default;
+}
+
+.schedule-page .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.schedule-page .btn-icon {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.schedule-page .btn-icon:hover { background: #f3f4f6; }
+.schedule-page .btn-icon.edit { color: #3b82f6; }
+.schedule-page .btn-icon.delete { color: #ef4444; }
+
+.schedule-page .hidden { display: none; }
+
+/* ── Calendar View ────────────────────────── */
+.schedule-page .calendar-container {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.schedule-page .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: #f8f9fb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-page .calendar-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.schedule-page .calendar-header h4 {
+    margin: 0;
+    color: #374151;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.schedule-page .cal-today-btn {
+    padding: 0.3rem 0.75rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.schedule-page .cal-today-btn:hover {
+    background: var(--red-color, #c10305);
+    color: white;
+    border-color: var(--red-color, #c10305);
+}
+
+.schedule-page .calendar-weekday-headers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-page .cal-wday-header {
+    padding: 0.6rem 0.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f9fafb;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.schedule-page .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    min-height: 0;
+}
+
+.schedule-page .cal-day-cell {
+    min-height: 90px;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0.45rem 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+}
+
+.schedule-page .cal-day-cell:nth-child(7n) { border-right: none; }
+
+.schedule-page .cal-day-cell:hover { background: #f0f4ff; }
+
+.schedule-page .cal-day-cell.outside {
+    background: #fafafa;
+    color: #d1d5db;
+    cursor: default;
+}
+
+.schedule-page .cal-day-cell.outside:hover { background: #fafafa; }
+
+.schedule-page .cal-day-cell.today {
+    background: #fef2f2;
+}
+
+.schedule-page .cal-day-cell.today:hover { background: #fee2e2; }
+
+.schedule-page .cal-day-number {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.35rem;
+}
+
+.schedule-page .cal-day-cell.outside .cal-day-number { color: #d1d5db; }
+
+.schedule-page .cal-day-cell.today .cal-day-number {
+    background: var(--red-color, #c10305);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.schedule-page .cal-schedule-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.schedule-page .cal-schedule-pill {
+    font-size: 0.68rem;
+    padding: 2px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.35;
+    color: white;
+    font-weight: 500;
+}
+
+.schedule-page .cal-more-label {
+    font-size: 0.68rem;
+    color: #6b7280;
+    padding: 1px 0;
+    font-weight: 500;
+}
+
+/* ── Day Detail Modal (inline within schedule-page) ── */
+.schedule-page .cal-day-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: calFadeIn 0.15s ease;
+}
+
+@keyframes calFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.schedule-page .cal-day-modal {
+    background: white;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 520px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    animation: calSlideUp 0.2s ease;
+}
+
+@keyframes calSlideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.schedule-page .cal-day-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8f9fb;
+}
+
+.schedule-page .cal-day-modal-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.schedule-page .cal-day-modal-close {
+    background: none;
+    border: none;
+    padding: 0.35rem;
+    cursor: pointer;
+    color: #9ca3af;
+    border-radius: 6px;
+    display: flex;
+    transition: all 0.15s;
+}
+
+.schedule-page .cal-day-modal-close:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.schedule-page .cal-day-modal-body {
+    padding: 1rem 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.schedule-page .cal-sched-card {
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 0.6rem;
+    border-left: 4px solid var(--red-color, #c10305);
+    transition: background 0.15s;
+}
+
+.schedule-page .cal-sched-card:hover { background: #f9fafb; }
+.schedule-page .cal-sched-card:last-child { margin-bottom: 0; }
+
+.schedule-page .cal-sched-subject {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.schedule-page .cal-sched-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: 0.8rem;
+    color: #6b7280;
+}
+
+.schedule-page .cal-sched-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.schedule-page .cal-no-schedules {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+/* ── Pagination ───────────────────────────── */
+.schedule-page .table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-top: 0.5rem;
+}
+
+.schedule-page .pagination-info { color: #6b7280; font-size: 0.85rem; }
+
+.schedule-page .pagination-controls { display: flex; gap: 0.5rem; }
+
+.schedule-page .pagination-btn {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+}
+
+.schedule-page .pagination-btn:hover:not(:disabled) { background: #f9fafb; }
+.schedule-page .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.schedule-page .pagination-btn.active { background: var(--red-color); color: white; border-color: var(--red-color); }
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 768px) {
+    .schedule-page .filter-bar-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .schedule-page .search-box { min-width: unset; }
+
+    .schedule-page .filter-controls { flex-direction: column; }
+
+    .schedule-page .filter-select-control { min-width: unset; width: 100%; }
+
+    .schedule-page .filter-meta {
+        margin-left: 0;
+        justify-content: space-between;
+    }
+
+    .schedule-page .schedule-view-toggle {
+        width: 100%;
+    }
+
+    .schedule-page .view-tab { flex: 1; justify-content: center; font-size: 0.8rem; padding: 0.45rem 0.5rem; }
+
+    .schedule-page .schedule-stats { grid-template-columns: repeat(2, 1fr); }
+
+    .schedule-page .table { font-size: 0.8rem; }
+    .schedule-page .table th,
+    .schedule-page .table td { padding: 0.5rem; }
+
+    .schedule-page .calendar-grid { grid-template-columns: repeat(7, 1fr); }
+    .schedule-page .cal-day-cell { min-height: 65px; padding: 0.3rem; }
+    .schedule-page .cal-day-number { font-size: 0.75rem; }
+    .schedule-page .cal-schedule-pill { font-size: 0.6rem; }
+    .schedule-page .calendar-header { flex-direction: column; gap: 0.5rem; }
+    .schedule-page .cal-wday-header { font-size: 0.7rem; padding: 0.4rem 0.25rem; }
+    .sd-modal { max-width: 90vw; }
+    .sd-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Schedule Detail Modal (sd-*) ──────────── */
+.sd-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.sd-modal-overlay.active {
+    opacity: 1;
+}
+.sd-modal {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    max-width: 480px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.25s ease;
+}
+.sd-modal-overlay.active .sd-modal {
+    transform: scale(1) translateY(0);
+}
+.sd-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: linear-gradient(135deg, #f9fafb 60%, var(--gold-light, #fef3e2));
+    border-radius: 12px 12px 0 0;
+}
+.sd-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.sd-day-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--maroon, #800000);
+    background: rgba(128,0,0,0.08);
+    padding: 0.25rem 0.7rem;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+}
+.sd-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0 0.25rem;
+    line-height: 1;
+    transition: color 0.15s;
+}
+.sd-close:hover { color: #374151; }
+.sd-body {
+    padding: 1.25rem 1.5rem;
+}
+.sd-title {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+.sd-requester-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: #fdf8f8;
+    border: 1px solid #f0e0e0;
+    border-radius: 10px;
+    margin-bottom: 1.25rem;
+}
+.sd-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--maroon-dark, #5c0000), var(--maroon, #800000));
+    color: var(--gold, #FFB81C);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+.sd-requester-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+.sd-requester-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #1f2937;
+}
+.sd-requester-meta {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+.sd-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+}
+.sd-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+.sd-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gold-muted, #9a7b4f);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.sd-label svg {
+    flex-shrink: 0;
+    opacity: 0.6;
+}
+.sd-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #374151;
+    word-break: break-word;
+}
+.sd-footer {
+    padding: 0.75rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+}
+.sd-close-btn {
+    padding: 0.5rem 1.25rem;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+}
+.sd-close-btn:hover {
+    background: #e5e7eb;
+}
+
+/* ── Conflict Detection (shared) ───────────── */
+.conflict-container {
+    margin-bottom: 1rem;
+}
+
+.conflict-alert {
+    border: 1px solid #fca5a5;
+    border-radius: 10px;
+    background: #fef2f2;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(248,113,113,0.15);
+}
+
+.conflict-alert-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0.85rem 0.95rem;
+    border-bottom: 1px solid #fee2e2;
+    flex-wrap: wrap;
+}
+
+.conflict-alert-header strong {
+    color: #b91c1c;
+    font-size: 0.95rem;
+    display: block;
+}
+
+.conflict-alert-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: #fee2e2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.conflict-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.95rem;
+}
+
+.conflict-item {
+    border: 1px solid #fee2e2;
+    border-radius: 10px;
+    padding: 0.75rem 0.85rem;
+    background: #fff;
+    color: #1f2937;
+    font-size: 0.9rem;
+}
+
+.conflict-item.conflict-medium { border-color: #fde68a; }
+.conflict-item.conflict-low { border-color: #bfdbfe; }
+
+.conflict-item.conflict-high { border-left: 3px solid #dc2626; }
+.conflict-item.conflict-medium { border-left: 3px solid #f59e0b; }
+
+.conflict-item-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.5rem 0.75rem;
+    background: #f9fafb;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.conflict-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.badge-schedule { background: #dbeafe; color: #1e40af; }
+.badge-request { background: #fef3c7; color: #92400e; }
+.badge-equipment { background: #ede9fe; color: #5b21b6; }
+
+.conflict-severity-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+.severity-high { background: #fee2e2; color: #991b1b; }
+.severity-medium { background: #fef3c7; color: #92400e; }
+
+.conflict-item-body {
+    padding: 0.5rem 0.75rem;
+}
+
+.conflict-message {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.conflict-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.conflict-item .conflict-title {
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+    color: #991b1b;
+    font-size: 0.95rem;
+}
+
+.conflict-item .conflict-body { margin: 0; line-height: 1.45; }
+
+.conflict-item .conflict-detail-row {
+    display: flex;
+    gap: 6px;
+    font-size: 0.86rem;
+    color: #4b5563;
+    line-height: 1.35;
+}
+
+.conflict-item .detail-label {
+    min-width: 68px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.detail-value { color: #374151; }
+
+.conflict-help {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0.85rem 0.95rem 1rem;
+    border-top: 1px solid #fee2e2;
+    color: #6b7280;
+    font-size: 0.86rem;
+    line-height: 1.35;
+}

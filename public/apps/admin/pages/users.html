@@ -1,0 +1,492 @@
+<div class="users-page fade-in">
+    <div class="card">
+        <div class="cardHeader">
+            <h3>Manage Users</h3>
+            <button class="btn btn-primary" id="add-user-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add User
+            </button>
+        </div>
+        
+        <div class="cardBody">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-bar-row">
+                    <div class="search-box">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="user-search" class="search-input" placeholder="Search by name, email, department, or program...">
+                    </div>
+                    <div class="filter-controls">
+                        <select id="user-role-filter" class="filter-select-control">
+                            <option value="">All Roles</option>
+                        </select>
+                        <select id="user-status-filter" class="filter-select-control">
+                            <option value="">All Status</option>
+                        </select>
+                        <select id="user-sort" class="filter-select-control">
+                            <option value="id-desc">Newest First</option>
+                            <option value="id-asc">Oldest First</option>
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="email-asc">Email (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-bar-row">
+                    <div class="filter-meta">
+                        <span id="users-results-count" class="results-count"></span>
+                        <button class="clear-filters-btn" id="users-clear-filters-btn" title="Clear all filters">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="active-filters" id="users-active-filters">
+                    <!-- Active filter tags rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="users-stats">
+                <div class="stat-card stat-clickable" data-role-filter="">
+                    <div class="stat-icon all-users">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="total-users-count">0</h4>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-clickable" data-role-filter="Admin">
+                    <div class="stat-icon admin-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="admin-count">0</h4>
+                        <p>Admins</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-clickable" data-role-filter="Faculty">
+                    <div class="stat-icon faculty-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="faculty-count">0</h4>
+                        <p>Faculty</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-clickable" data-role-filter="Student">
+                    <div class="stat-icon student-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 id="student-count">0</h4>
+                        <p>Students</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table" id="users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department / Program</th>
+                            <th>Status</th>
+                            <th>Last Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Users will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="table-pagination" id="users-pagination">
+                <!-- Pagination will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ── Filter Bar ────────────────────────────── */
+.users-page .filter-bar {
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.users-page .filter-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.users-page .search-box {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.users-page .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.users-page .search-input {
+    width: 100%;
+    padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.users-page .search-input:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+    box-shadow: 0 0 0 3px rgba(193,3,5,0.08);
+}
+
+.users-page .filter-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.users-page .filter-select-control {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    color: #374151;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    min-width: 130px;
+}
+
+.users-page .filter-select-control:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+}
+
+.users-page .filter-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.users-page .results-count {
+    font-size: 0.825rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.users-page .clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.7rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.users-page .clear-filters-btn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+.users-page .active-filters {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    min-height: 0;
+}
+
+.users-page .active-filters:empty {
+    display: none;
+}
+
+.users-page .filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 99px;
+    font-size: 0.775rem;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.users-page .filter-tag-label {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.users-page .filter-tag-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+    line-height: 1;
+}
+
+.users-page .filter-tag-remove:hover {
+    color: #dc2626;
+}
+
+/* ── Stats Cards ───────────────────────────── */
+.users-page .users-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.users-page .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.users-page .stat-clickable {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.users-page .stat-clickable:hover {
+    border-color: #9ca3af;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.users-page .stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.users-page .stat-icon.all-users { background: #6366f1; }
+.users-page .stat-icon.admin-icon { background: #3b82f6; }
+.users-page .stat-icon.faculty-icon { background: #8b5cf6; }
+.users-page .stat-icon.student-icon { background: #10b981; }
+
+.users-page .stat-info h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.users-page .stat-info p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+/* ── Table ─────────────────────────────────── */
+.users-page .table-responsive {
+    overflow-x: auto;
+}
+
+.users-page .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-page .table th,
+.users-page .table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.users-page .table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.users-page .table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.users-page .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.users-page .status-badge.active { background: #d1fae5; color: #065f46; }
+.users-page .status-badge.inactive,
+.users-page .status-badge.deactivated { background: #fee2e2; color: #991b1b; }
+.users-page .status-badge.suspended { background: #fef3c7; color: #92400e; }
+
+.users-page .role-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.users-page .role-badge.admin { background: #dbeafe; color: #1e40af; }
+.users-page .role-badge.faculty { background: #e9d5ff; color: #6b21a8; }
+.users-page .role-badge.student { background: #d1fae5; color: #065f46; }
+
+.users-page .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.users-page .btn-icon {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.users-page .btn-icon:hover {
+    background: #f3f4f6;
+}
+
+.users-page .btn-icon.edit { color: #3b82f6; }
+.users-page .btn-icon.delete { color: #ef4444; }
+
+.users-page .no-data-row td {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #9ca3af;
+}
+
+/* ── Pagination ────────────────────────────── */
+.users-page .table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-top: 0.5rem;
+}
+
+.users-page .pagination-info {
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.users-page .pagination-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.users-page .pagination-btn {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.users-page .pagination-btn:hover:not(:disabled) { background: #f9fafb; }
+.users-page .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.users-page .pagination-btn.active { background: var(--red-color); color: white; border-color: var(--red-color); }
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 768px) {
+    .users-page .filter-bar-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .users-page .search-box { min-width: unset; }
+
+    .users-page .filter-controls {
+        flex-direction: column;
+    }
+
+    .users-page .filter-select-control {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .users-page .filter-meta {
+        margin-left: 0;
+        justify-content: space-between;
+    }
+
+    .users-page .users-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .users-page .table { font-size: 0.8rem; }
+    .users-page .table th,
+    .users-page .table td { padding: 0.5rem; }
+}
+</style>

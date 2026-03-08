@@ -1,0 +1,333 @@
+<style>
+/* ── Profile Settings Page ───────────────── */
+.profile-settings-page {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1rem 0;
+}
+
+.profile-settings-page .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.profile-settings-page .profile-avatar-large {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--red-color, #c10305);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.profile-settings-page .profile-header-info h2 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.profile-settings-page .profile-header-info p {
+    margin: 0.15rem 0 0;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.profile-settings-page .profile-header-info .role-badge {
+    display: inline-block;
+    margin-top: 0.35rem;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.profile-settings-page .role-badge.admin { background: #fef2f2; color: #dc2626; }
+.profile-settings-page .role-badge.faculty { background: #eff6ff; color: #2563eb; }
+.profile-settings-page .role-badge.student { background: #f0fdf4; color: #16a34a; }
+
+/* ── Sections ──────────────────────────── */
+.profile-settings-page .profile-section {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.profile-settings-page .profile-section h3 {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-settings-page .profile-section h3 svg {
+    color: #6b7280;
+}
+
+/* ── Form Fields ─────────────────────────── */
+.profile-settings-page .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.profile-settings-page .form-row.single {
+    grid-template-columns: 1fr;
+}
+
+.profile-settings-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.profile-settings-page .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.profile-settings-page .form-group input,
+.profile-settings-page .form-group select {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    color: #1f2937;
+}
+
+.profile-settings-page .form-group input:focus,
+.profile-settings-page .form-group select:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+    box-shadow: 0 0 0 3px rgba(193,3,5,0.08);
+}
+
+.profile-settings-page .form-group input:disabled,
+.profile-settings-page .form-group input[readonly] {
+    background: #f3f4f6;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.profile-settings-page .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.profile-settings-page .btn-save {
+    padding: 0.55rem 1.25rem;
+    background: var(--red-color, #c10305);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.profile-settings-page .btn-save:hover { background: #a00204; }
+.profile-settings-page .btn-save:active { transform: scale(0.98); }
+.profile-settings-page .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.profile-settings-page .btn-cancel {
+    padding: 0.55rem 1.25rem;
+    background: white;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.profile-settings-page .btn-cancel:hover { background: #f9fafb; }
+
+/* ── Password Strength ───────────────────── */
+.profile-settings-page .password-strength {
+    height: 3px;
+    border-radius: 2px;
+    background: #e5e7eb;
+    margin-top: 0.3rem;
+    overflow: hidden;
+}
+
+.profile-settings-page .password-strength-bar {
+    height: 100%;
+    border-radius: 2px;
+    width: 0;
+    transition: width 0.3s, background 0.3s;
+}
+
+.profile-settings-page .password-hint {
+    font-size: 0.72rem;
+    color: #9ca3af;
+    margin-top: 0.2rem;
+}
+
+/* ── Message ─────────────────────────────── */
+.profile-settings-page .profile-message {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    display: none;
+}
+
+.profile-settings-page .profile-message.success {
+    display: block;
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.profile-settings-page .profile-message.error {
+    display: block;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+/* ── Responsive ──────────────────────────── */
+@media (max-width: 600px) {
+    .profile-settings-page .form-row {
+        grid-template-columns: 1fr;
+    }
+    .profile-settings-page .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+</style>
+
+<div class="profile-settings-page" id="profile-settings-page">
+    <!-- Message banner -->
+    <div class="profile-message" id="profile-message"></div>
+
+    <!-- Header with avatar -->
+    <div class="profile-header">
+        <div class="profile-avatar-large" id="profile-avatar-initials">?</div>
+        <div class="profile-header-info">
+            <h2 id="profile-display-name">Loading...</h2>
+            <p id="profile-display-email">Loading...</p>
+            <span class="role-badge" id="profile-role-badge">—</span>
+        </div>
+    </div>
+
+    <!-- Personal Information -->
+    <div class="profile-section">
+        <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Personal Information
+        </h3>
+        <form id="profile-info-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profile-fullname">Full Name</label>
+                    <input type="text" id="profile-fullname" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="profile-gmail">Email</label>
+                    <input type="email" id="profile-gmail" disabled>
+                </div>
+            </div>
+
+            <!-- Faculty-only fields -->
+            <div class="form-row" id="profile-faculty-fields" style="display:none;">
+                <div class="form-group">
+                    <label for="profile-department">Department</label>
+                    <select id="profile-department">
+                        <option value="">Loading departments...</option>
+                    </select>
+                    <small class="form-help">Departments are managed from the Academic Directory</small>
+                </div>
+                <div class="form-group"></div>
+            </div>
+
+            <!-- Student-only fields -->
+            <div class="form-row" id="profile-student-fields" style="display:none;">
+                <div class="form-group">
+                    <label for="profile-program">Program</label>
+                    <select id="profile-program">
+                        <option value="">Loading programs...</option>
+                    </select>
+                    <small class="form-help">Programs are managed from the Academic Directory</small>
+                </div>
+                <div class="form-group">
+                    <label for="profile-year-level">Year Level</label>
+                    <select id="profile-year-level">
+                        <option value="">Select year level</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-save" id="profile-save-btn">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Change Password -->
+    <div class="profile-section">
+        <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Change Password
+        </h3>
+        <form id="profile-password-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profile-current-password">Current Password</label>
+                    <input type="password" id="profile-current-password" placeholder="Enter current password" required>
+                </div>
+                <div class="form-group"></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="profile-new-password">New Password</label>
+                    <input type="password" id="profile-new-password" placeholder="Enter new password" required minlength="6">
+                    <div class="password-strength"><div class="password-strength-bar" id="password-strength-bar"></div></div>
+                    <span class="password-hint">Minimum 6 characters</span>
+                </div>
+                <div class="form-group">
+                    <label for="profile-confirm-password">Confirm New Password</label>
+                    <input type="password" id="profile-confirm-password" placeholder="Confirm new password" required>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-save" id="password-save-btn">Change Password</button>
+            </div>
+        </form>
+    </div>
+
+</div>

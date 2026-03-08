@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartLab | Admin Panel</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .quick-actions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      
+      .quick-actions-grid .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 1rem;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+      
+      .quick-actions-grid .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+      
+      .activity-feed {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+      
+      .activity-item {
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        align-items: start;
+        gap: 0.75rem;
+      }
+      
+      .activity-item:last-child {
+        border-bottom: none;
+      }
+      
+      .activity-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 14px;
+      }
+      
+      .activity-content {
+        flex: 1;
+      }
+      
+      .activity-title {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+      }
+      
+      .activity-time {
+        font-size: 0.875rem;
+        color: #6b7280;
+      }
+      
+      .activity-loading {
+        color: #6b7280;
+        font-style: italic;
+      }
+      
+      .activity-icon.user { background-color: #dbeafe; color: #1e40af; }
+      .activity-icon.request { background-color: #fef3c7; color: #92400e; }
+      .activity-icon.approved { background-color: #d1fae5; color: #065f46; }
+      .activity-icon.rejected { background-color: #fee2e2; color: #991b1b; }
+      .activity-icon.lab { background-color: #e9d5ff; color: #6b21a8; }
+    </style>
+  </head>
+
+  <body class="dashboard-body">
+    <header class="header">
+      <div>
+        <button id="sidebar-toggle" class="sidebar-toggle">
+          <span class="icon">☰</span>
+        </button>
+      </div>
+      <h1>Welcome back, <span id="user-fullname">Loading...</span></h1>
+      <div class="academic-context">
+        <p id="academic-year">Loading... <span> | </span></p>
+        <p id="semester"><strong>Loading...</strong></p>
+      </div>
+      <!-- Notification Icon -->
+      <div class="notification-icon">
+        <button class="notification-btn" id="notification-btn">
+          <span class="icon">🔔</span>
+          <span class="notification-badge" id="notification-count">3</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ================= Main Content ================= -->
+    <main class="adminShell">
+      <!-- ================= Sidebar ================= -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <img src="images/PUPLogo.png" alt="SmartLab Logo" />
+            <div class="sidebar-text">
+              <h2>smartlab.</h2>
+              <p>Office of the Department of Information</p>
+            </div>
+          </div>
+        </div>
+        <nav class="navList">
+          <button class="navItem active" data-tab="dashboard">Dashboard</button>
+          <button class="navItem" data-tab="users">Manage Accounts</button>
+          <button class="navItem" data-tab="schedule">Lab Schedule</button>
+          <button class="navItem" data-tab="requests">Requests</button>
+          <button class="navItem" data-tab="equipment">Equipments</button>
+          <button class="navItem" data-tab="reports">Reports</button>
+        </nav>
+
+        <!-- Profile Section -->
+        <div class="sidebar-profile">
+          <button class="profile-trigger" id="profile-trigger">
+            <div class="profile-avatar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <span class="profile-email" id="profile-email">Loading...</span>
+            <svg
+              class="profile-chevron"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+            >
+              <path
+                d="M5 7.5L10 12.5L15 7.5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Profile Dropdown Modal - MOVED OUTSIDE SIDEBAR -->
+      <div class="profile-dropdown hidden" id="profile-dropdown">
+        <div class="dropdown-profile">
+            <div class="profile-avatar">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </div>
+            <span class="profile-email" id="dropdown-profile-email">Loading...</span>
+        </div>
+        <div class="profile-dropdown-header">
+          <div class="profile-badge">Admin</div>
+        </div>
+        <div class="profile-dropdown-menu">
+          <button class="profile-menu-item" id="profile-settings-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
+                fill="currentColor"
+              />
+            </svg>
+            Profile Settings
+          </button>
+          <button class="profile-menu-item" id="change-password-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12.65 10C11.83 7.67 9.61 6 7 6C3.69 6 1 8.69 1 12C1 15.31 3.69 18 7 18C9.61 18 11.83 16.33 12.65 14H17V18H21V14H23V10H12.65ZM7 14C5.9 14 5 13.1 5 12C5 10.9 5.9 10 7 10C8.1 10 9 10.9 9 12C9 13.1 8.1 14 7 14Z"
+                fill="currentColor"
+              />
+            </svg>
+            Change Password
+          </button>
+          <button
+            class="profile-menu-item profile-signout"
+            id="profile-signout-btn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M17 7L15.59 8.41L18.17 11H8V13H18.17L15.59 15.59L17 17L22 12L17 7ZM4 5H12V3H4C2.9 3 2 3.9 2 5V19C2 20.1 2.9 21 4 21H12V19H4V5Z"
+                fill="currentColor"
+              />
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+
+      <section class="content">
+        <!-- Dashboard / Overview -->
+        <div class="card tabPanel" id="tab-dashboard">
+          <!-- Schedule Gantt Chart Visual -->
+           <div class="gantt-chart-content">
+            <div class="filter-group">
+                <label for="lab-gantt-chart-filter" class="sr-only">Filter by Lab:</label>
+                <select id="lab-gantt-chart-filter" class="gantt-chart-filter-select">
+                  <option value="Lab 1">Laboratory 1</option>
+                  <option value="Lab 2">Laboratory 2</option>
+                  <option value="Lab 3">Laboratory 3</option>
+                </select>
+              </div>
+            <h3>Schedule Gantt Chart Visual</h3>
+            <!-- Table will be built dynamically by JavaScript -->
+          </div>
+          <!-- System Overview -->
+          <div class="cardHeader">
+            <h3>System Overview</h3>
+          </div>
+          <div class="analytics-grid">
+            <div class="stats-card">
+              <h4>Total Users</h4>
+              <p class="stats-number" id="count-totalUsers">-</p>
+            </div>
+            <div class="stats-card">
+              <h4>Students</h4>
+              <p class="stats-number" id="count-studentCount">-</p>
+            </div>
+            <div class="stats-card">
+              <h4>Faculty</h4>
+              <p class="stats-number" id="count-facultyCount">-</p>
+            </div>
+            <div class="stats-card">
+              <h4>Pending Requests</h4>
+              <p class="stats-number red-text" id="count-pendingCount">-</p>
+            </div>
+            <div class="stats-card">
+              <h4>Active Labs Today</h4>
+              <p class="stats-number" id="count-activeLabsToday">-</p>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="cardHeader" style="margin-top: 2rem;">
+            <h3>Quick Actions</h3>
+          </div>
+          <div class="quick-actions-grid">
+            <button class="btn btn-primary" onclick="addNewUser()">
+              <i class="fa-solid fa-user-plus"></i> Add New User
+            </button>
+            <button class="btn btn-info" onclick="showPendingRequestsQuick()">
+              <i class="fa-solid fa-clock"></i> Review Pending Requests
+            </button>
+            <button class="btn btn-secondary" onclick="addNewLabSchedule()">
+              <i class="fa-solid fa-calendar-plus"></i> Add Lab Schedule
+            </button>
+            <button class="btn btn-warning" onclick="showEquipmentStatus()">
+              <i class="fa-solid fa-tools"></i> Equipment Status
+            </button>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="cardHeader" style="margin-top: 2rem;">
+            <h3>Recent Activity</h3>
+          </div>
+          <div class="activity-feed" id="recent-activity">
+            <div class="activity-item">
+              <span class="activity-loading">Loading recent activity...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manage Users -->
+        <div class="card tabPanel hidden" id="tab-users">
+          <div class="cardHeader">
+            <h3>Manage Accounts</h3>
+          
+            <div class="header-actions">
+              <div class="filter-group">
+                <select id="account-filter" class="filter-select">
+                  <option value="all">All Accounts</option>
+                  <option value="admin">Admin</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="student">Student</option>
+                </select>
+              </div>
+            
+              <button class="btn btn-primary" id="open-add-modal" type="button">
+                Add Account
+              </button>
+            </div>
+          </div>
+        
+          <!-- Unified Users Table -->
+          <div id="view-users" class="account-view">
+            <div class="tableWrap">
+              <table id="users-table">
+                <thead>
+                  <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Gmail</th>
+                    <th>Department/Course</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+              
+                <!-- Dynamic rows injected by adminUsers.js -->
+                <tbody id="users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Lab Schedule -->
+        <div class="card tabPanel hidden" id="tab-schedule">
+          <!-- Existing Manage Lab Schedule -->
+          <div class="cardHeader">
+            <h3>Manage Lab Schedule</h3>
+          
+            <div class="header-actions">
+              <div class="filter-group">
+                <label for="lab-filter" class="sr-only">Filter by Lab:</label>
+                <select id="lab-filter" class="filter-select">
+                  <option value="all">All Laboratories</option>
+                  <option value="Lab 1">Laboratory 1</option>
+                  <option value="Lab 2">Laboratory 2</option>
+                  <option value="Lab 3">Laboratory 3</option>
+                </select>
+              </div>
+            
+              <button class="btn btn-primary" id="btn-add-schedule">
+                Add Schedule
+              </button>
+            </div>
+          </div>
+        
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Lab</th>
+                  <th>Faculty</th>
+                  <th>Section</th>
+                  <th>Year</th>
+                  <th>Subject</th>
+                  <th>Day</th>
+                  <th>Time Start</th>
+                  <th>Time End</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+            
+              <!--  Dynamic rows will be injected here -->
+              <tbody id="lab-schedule-body-admin">
+                <tr>
+                  <td colspan="9" style="text-align:center;">
+                    Loading schedules...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- Requests -->
+        <div class="card tabPanel hidden" id="tab-requests">
+          <h3>View Requests</h3>
+          
+          <!-- Request Status Filter -->
+          <div class="filter-group" style="margin-bottom: 20px;">
+            <label for="request-status-filter" class="sr-only">Filter by Status:</label>
+            <select id="request-status-filter" class="filter-select">
+              <option value="all">All Requests</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Cancelled">Cancelled</option>
+              <option value="Returned">Returned</option>
+              <option value="Declined">Declined</option>
+            </select>
+          </div>
+        
+          <div>
+            <div class="card innerCard">
+              <h4>Lab / Equipment Requests</h4>
+            
+              <div class="tableWrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Role</th>
+                      <th>Full Name</th>
+                      <th>Room</th>
+                      <th>Equipment</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                
+                  <!--  Dynamic content injected here -->
+                  <tbody id="pending-requests-tbody">
+                    <tr>
+                      <td colspan="8" style="text-align:center;">Loading requests...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Equipments -->
+        <div class="card tabPanel hidden" id="tab-equipment">
+          <div class="cardHeader">
+            <h3>Manage Equipments</h3>
+            <button class="btn btn-primary" id="btn-add-equipment">Add Equipment</button>
+          </div>
+
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Total Quantity</th>
+                  <th>Available</th>
+                  <th>Borrowed</th>
+                  <th>Damaged</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="equipment-tbody">
+                <tr>
+                  <td colspan="7" style="text-align: center; color: #666;">
+                    Loading equipment...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reports -->
+        <div class="card tabPanel hidden" id="tab-reports">
+          <div class="cardHeader">
+            <h3>Reports</h3>
+            <div class="header-actions">
+              <button class="btn btn-secondary" id="export-csv-btn">Export CSV</button>
+              <button class="btn btn-secondary" id="export-excel-btn">Export Excel</button>
+              <button class="btn btn-primary" id="export-pdf-btn">Export PDF</button>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="filters-section">
+            <div class="filter-row">
+              <div class="filter-group">
+                <label for="date-from-filter">Date From:</label>
+                <input type="date" id="date-from-filter" />
+              </div>
+              <div class="filter-group">
+                <label for="date-to-filter">Date To:</label>
+                <input type="date" id="date-to-filter" />
+              </div>
+              <div class="filter-group">
+                <label for="status-filter">Status:</label>
+                <select id="status-filter">
+                  <option value="">All Status</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Declined">Declined</option>
+                  <option value="Cancelled">Cancelled</option>
+                  <option value="Returned">Returned</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <button class="btn btn-primary" id="apply-filters-btn">Apply Filters</button>
+                <button class="btn btn-secondary" id="clear-filters-btn">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>DATE</th>
+                  <th>ROOM</th>
+                  <th>ITEM/S</th>
+                  <th>NAME</th>
+                  <th>COURSE & YR</th>
+                  <th>FACULTY-IN-CHARGE</th>
+                  <th>TIME</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="reports-table-body">
+                <!-- Reports will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="star3-bg">
+          <img src="images/Star.svg" alt="Blur Star Background" />
+        </div>
+      </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- add account -->
+    <div id="modal-add-account" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="cardHeader">
+          <h3>Create New Account</h3>
+          <button type="button" class="close-modal" aria-label="Close">&times;</button>
+        </div>
+
+        <form id="add-account-form" autocomplete="off">
+          <div class="row">
+            <div>
+              <label for="role-select">Role</label>
+              <select id="role-select" name="role_id" required>
+                <option value="" disabled selected>Select Role</option>
+              </select>
+              <small id="role-help" class="hint"></small>
+            </div>
+
+            <div class="full">
+              <label for="full-name">Full Name</label>
+              <input
+                id="full-name"
+                name="full-name"
+                type="text"
+                placeholder="Enter complete name"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="gmail">Gmail</label>
+              <input
+                id="gmail"
+                name="gmail"
+                type="text"
+                placeholder="Gmail"
+                required
+              />
+            </div>
+
+            <div>
+              <label for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                type="text"
+                placeholder="Password"
+                required
+              />
+            </div>
+
+            <div id="faculty-extra-fields" class="full hidden">
+              <div>
+                <label for="department-select">Department</label>
+                <select id="department-select" name="department">
+                  <option value="" disabled selected>Select Department</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Biology">Biology</option>
+                  <option value="Engineering">Engineering</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="student-extra-fields" class="full hidden">
+              <div>
+                <label for="program-select">Program</label>
+                <select id="program-select" name="program">
+                  <option value="" disabled selected>Select Program</option>
+                  <option value="BSIT">BSIT</option>
+                  <option value="DIT">DIT</option>
+                  <option value="BSEE">BSEE</option>
+                </select>
+              </div>
+            
+              <div>
+                <label for="year-select">Year</label>
+                <select id="year-select" name="year">
+                  <option value="" disabled selected>Select Year</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-action-btn">
+            <button type="button" class="btn action-btn btn-secondary" id="cancel-modal">
+              Cancel
+            </button>
+            <button type="submit" class="btn action-btn btn-primary">Save Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div id="modal-edit-user" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="cardHeader">
+          <h3>Edit User Account</h3>
+          <button class="close-modal-edit-user">&times;</button>
+        </div>
+
+        <form id="edit-user-form">
+          <div class="row">
+            <div>
+              <label for="edit-full-name">Full Name</label>
+              <input
+                type="text"
+                id="edit-full-name"
+                name="full_name"
+                placeholder="Enter full name"
+                required
+              />
+            </div>
+            <div>
+              <label for="edit-gmail">Gmail</label>
+              <input
+                type="email"
+                id="edit-gmail"
+                name="gmail"
+                placeholder="Enter gmail address"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="row">
+            <div>
+              <label for="edit-role">Role</label>
+              <select id="edit-role" name="role_id" required disabled>
+                <option value="">-- Select Role --</option>
+              </select>
+            </div>
+            <div>
+              <label for="edit-status">Status</label>
+              <select id="edit-status" name="status_id" required>
+                <option value="">-- Select Status --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Faculty Department Field -->
+          <div id="edit-faculty-fields" class="full hidden">
+            <label for="edit-department">Department</label>
+            <select id="edit-department" name="department">
+              <option value="">-- Select Department --</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Information Technology">Information Technology</option>
+              <option value="Engineering">Engineering</option>
+              <option value="Business">Business</option>
+            </select>
+          </div>
+
+          <!-- Student Program and Year Fields -->
+          <div id="edit-student-fields" class="full hidden">
+            <div class="row">
+              <div>
+                <label for="edit-program">Program</label>
+                <select id="edit-program" name="program">
+                  <option value="">-- Select Program --</option>
+                  <option value="BSIT">BSIT</option>
+                  <option value="DIT">DIT</option>
+                  <option value="BSOA">BSOA</option>
+                  <option value="BSCE">BSCE</option>
+                </select>
+              </div>
+              <div>
+                <label for="edit-year">Year Level</label>
+                <select id="edit-year" name="year_level">
+                  <option value="">-- Select Year --</option>
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4">4th Year</option>
+                  <option value="5">5th Year</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <input type="hidden" id="edit-user-id" name="user_id" />
+
+          <div class="modal-action-btn">
+            <button type="button" class="btn action-btn btn-secondary" id="cancel-edit-modal">
+              Cancel
+            </button>
+            <button type="submit" class="btn action-btn btn-primary">Update Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- add aschedule -->
+    <div id="modal-add-schedule" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="cardHeader">
+          <h3 id="modal-title">Add New Lab Schedule</h3>
+          <button class="close-modal-sched">&times;</button>
+        </div>
+
+        <form id="add-schedule-form" data-mode="add">
+          <div class="row">
+            <div>
+              <label>Laboratory</label>
+              <select id="sched-lab" required>
+                <option value="Lab 1">Lab 1</option>
+                <option value="Lab 2">Lab 2</option>
+                <option value="Lab 3">Lab 3</option>
+              </select>
+            </div>
+            <div>
+              <label>Faculty</label>
+              <select id="sched-faculty-id" required>
+                <option value="" disabled selected>Select faculty</option>
+              </select>
+            </div>
+            <div>
+              <label>Section</label>
+              <select id="sched-section" required>
+                <option value="BSIT">BSIT</option>
+                <option value="DIT">DIT</option>
+                <option value="BSOA">BSOA</option>
+              </select>
+            </div>
+            <div>
+              <label>Year</label>
+              <select id="sched-year" required>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year</option>
+              </select>
+            </div>
+           <div>
+              <label>Subject</label>
+              <input
+                type="text"
+                id="sched-subject"
+                placeholder="e.g. Programming"
+                required
+              />
+            </div>
+            <div>
+              <label>Day</label>
+              <select id="sched-day" required>
+                <option value="MONDAY">MONDAY</option>
+                <option value="TUESDAY">TUESDAY</option>
+                <option value="WEDNESDAY">WEDNESDAY</option>
+                <option value="THURSDAY">THURSDAY</option>
+                <option value="FRIDAY">FRIDAY</option>
+                <option value="SATURDAY">SATURDAY</option>
+              </select>
+            </div>
+            <div class="split-row">
+              <div>
+                <label>Start Time</label>
+                <input type="time" id="sched-start" min="07:30" max="21:00" step="1800" required />
+                <small id="time-start-error" class="error"></small>
+              </div>
+              <div>
+                <label>End Time</label>
+                <input type="time" id="sched-end" min="07:30" max="21:00" step="1800" required />
+                <small id="time-end-error" class="error"></small>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-action-btn">
+            <button type="button" class="btn action-btn btn-secondary" id="cancel-modal">
+              Cancel
+            </button>
+            <button type="submit" class="btn action-btn btn-primary" id="save-btn">
+              Save Schedule
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- edit schedule -->
+    <div id="modal-edit-schedule" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="cardHeader">
+          <h3 id="modal-title">Edit Lab Schedule</h3>
+          <button class="close-modal-edit-sched">&times;</button>
+        </div>
+
+        <form id="edit-schedule-form" data-mode="edit">
+          <input type="hidden" id="edit-sched-id" />
+          <div class="row">
+            <div>
+              <label>Laboratory</label>
+              <select id="edit-sched-lab" required>
+                <option value="Lab 1">Lab 1</option>
+                <option value="Lab 2">Lab 2</option>
+                <option value="Lab 3">Lab 3</option>
+              </select>
+            </div>
+            <div>
+              <label>Faculty</label>
+              <select id="edit-sched-faculty-id" required>
+                <option value="" disabled selected>Select faculty</option>
+              </select>
+            </div>
+            <div>
+              <label>Section</label>
+              <select id="edit-sched-section" required>
+                <option value="BSIT">BSIT</option>
+                <option value="DIT">DIT</option>
+                <option value="BSOA">BSOA</option>
+              </select>
+            </div>
+            <div>
+              <label>Year</label>
+              <select id="edit-sched-year" required>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+                <option value="5">5th Year</option>
+              </select>
+            </div>
+           <div>
+              <label>Subject</label>
+              <input
+                type="text"
+                id="edit-sched-subject"
+                placeholder="e.g. Programming"
+                required
+              />
+            </div>
+            <div>
+              <label>Day</label>
+              <select id="edit-sched-day" required>
+                <option value="MONDAY">MONDAY</option>
+                <option value="TUESDAY">TUESDAY</option>
+                <option value="WEDNESDAY">WEDNESDAY</option>
+                <option value="THURSDAY">THURSDAY</option>
+                <option value="FRIDAY">FRIDAY</option>
+                <option value="SATURDAY">SATURDAY</option>
+              </select>
+            </div>
+            <div class="split-row">
+              <div>
+                <label>Start Time</label>
+                <input type="time" id="edit-sched-start" min="07:30" max="21:00" step="1800" required />
+              </div>
+              <div>
+                <label>End Time</label>
+                <input type="time" id="edit-sched-end" min="07:30" max="21:00" step="1800" required />
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-action-btn">
+            <button type="button" class="btn action-btn btn-secondary" id="cancel-edit-modal">
+              Cancel
+            </button>
+            <button type="submit" class="btn action-btn btn-primary" id="save-btn">
+              Update Schedule
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add equipment modal -->
+    <div id="modal-add-equipment" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="cardHeader">
+          <h3 id="modal-title">Add New Equipment</h3>
+          <button class="close-modal-equipment">&times;</button>
+        </div>
+
+        <form id="add-equipment-form" data-mode="add">
+          <div class="row">
+            <div>
+              <label>Equipment Name</label>
+              <input
+                type="text"
+                name="equipment_name"
+                id="equipment-name"
+                placeholder="e.g. Projector"
+                required
+              />
+            </div>
+            <div>
+              <label>Total Quantity</label>
+              <input
+                type="number"
+                name="total_qty"
+                id="total-qty"
+                placeholder="e.g. 5"
+                min="0"
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="row">
+            <div>
+              <label>Status</label>
+              <select name="status_id" id="equipment-status" required disabled>
+                <option value="1">Available</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-action-btn">
+            <button
+              type="button"
+              class="btn action-btn btn-secondary close-modal-equipment"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn action-btn btn-primary">
+              Save Equipment
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit equipment modal -->
+    <div id="modal-edit-equipment" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="cardHeader">
+          <h3 id="modal-title">Edit Equipment</h3>
+          <button class="close-modal-edit-equipment">&times;</button>
+        </div>
+
+        <form id="edit-equipment-form" data-mode="edit">
+          <input type="hidden" id="edit-equipment-id" />
+          
+          <div class="row">
+            <div>
+              <label>Equipment Name</label>
+              <input
+                type="text"
+                name="equipment_name"
+                id="edit-equipment-name"
+                placeholder="e.g. Projector"
+                required
+              />
+            </div>
+            <div>
+              <label>Total Quantity</label>
+              <input
+                type="number"
+                name="total_qty"
+                id="edit-total-qty"
+                placeholder="e.g. 5"
+                min="0"
+                required
+              />
+              <small id="edit-total-qty-error" class="error-message" style="color: red; font-size: 12px; margin-top: 4px;"></small>
+
+              <label>Available Quantity</label>
+              <input
+                type="number"
+                name="available_qty"
+                id="edit-available-qty"
+                disabled
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Status</label>
+              <select name="status_id" id="edit-equipment-status" required disabled>
+                <option value="">Select status</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-action-btn">
+            <button
+              type="button"
+              class="btn action-btn btn-secondary close-modal-edit-equipment"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn action-btn btn-primary">
+              Update Equipment
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Core utilities -->
+    <script src="js/core/auth.js"></script>
+    <script src="js/core/core.js"></script>
+    <script src="js/core/utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/core/profileDropdown.js"></script>
+    <script src="js/core/printReports.js"></script>
+    <script src="js/core/inputValidator.js"></script>
+    
+    <!-- PDF Export Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+
+    <!-- Feature modules -->
+    <script src="js/features/adminDashboard.js"></script>
+    <script src="js/features/adminUsers.js"></script>
+    <script src="js/features/adminRequests.js"></script>
+    <script src="js/features/adminReports.js" defer></script>
+    <script src="js/features/manageLabSchedule.js"></script>
+    <script src="js/features/adminEquipment.js"></script>
+    <script src="js/features/ganttChart.js" defer></script>
+
+    <!-- Page controllers -->
+    <script src="js/pages/admin.js"></script>
+
+  </body>
+</html>

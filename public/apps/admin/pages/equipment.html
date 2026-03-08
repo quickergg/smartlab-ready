@@ -1,0 +1,992 @@
+<div class="equipment-page fade-in">
+    <div class="card">
+        <div class="cardHeader">
+            <h3>Equipment Inventory</h3>
+            <button class="btn btn-primary" id="add-equipment-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add Equipment
+            </button>
+        </div>
+        
+        <div class="cardBody">
+            <!-- View Toggle Tabs -->
+            <div class="equipment-view-toggle">
+                <button class="view-tab active" data-view="table">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                    Table View
+                </button>
+                <button class="view-tab" data-view="calendar">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Calendar
+                </button>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="filter-bar-row">
+                    <div class="search-box">
+                        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input type="text" id="equipment-search" class="search-input" placeholder="Search equipment by name...">
+                    </div>
+                    <div class="filter-controls">
+                        <input type="date" id="equipment-date-filter" class="filter-select-control" title="Filter by date">
+                        <select id="equipment-status-filter" class="filter-select-control">
+                            <option value="">All Status</option>
+                            <option value="Available">Available</option>
+                            <option value="Borrowed">Borrowed</option>
+                            <option value="Damaged">Damaged</option>
+                            <option value="Unavailable">Unavailable</option>
+                        </select>
+                        <select id="equipment-sort" class="filter-select-control">
+                            <option value="name-asc">Name (A-Z)</option>
+                            <option value="name-desc">Name (Z-A)</option>
+                            <option value="qty-desc">Total Qty (High-Low)</option>
+                            <option value="qty-asc">Total Qty (Low-High)</option>
+                            <option value="available-desc">Available (High-Low)</option>
+                            <option value="status-asc">Status (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-bar-row">
+                    <div class="filter-meta">
+                        <span id="equipment-results-count" class="results-count"></span>
+                        <button class="clear-filters-btn" id="equipment-clear-filters-btn" title="Clear all filters">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="active-filters" id="equipment-active-filters">
+                    <!-- Active filter tags rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Stats Dashboard -->
+            <div class="equipment-stats-dashboard">
+                <!-- Row 1: Inventory Overview -->
+                <div class="equipment-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon total">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="12" y1="8" x2="12" y2="16"></line>
+                                <line x1="8" y1="12" x2="16" y2="12"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-total-equipment">0</h4>
+                            <p>Total Qty</p>
+                            <span class="stat-sub" id="stat-unique-items">0 items</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon available">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-available-equipment">0</h4>
+                            <p>Available</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon borrowed">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-borrowed-equipment">0</h4>
+                            <p>Borrowed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon damaged">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-damaged-equipment">0</h4>
+                            <p>Damaged</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Usage & Request Metrics -->
+                <div class="equipment-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon utilization">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="20" x2="18" y2="10"></line>
+                                <line x1="12" y1="20" x2="12" y2="4"></line>
+                                <line x1="6" y1="20" x2="6" y2="14"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-utilization-rate">0%</h4>
+                            <p>Utilization</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon today-res">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-today-reserved">0</h4>
+                            <p>Reserved Today</p>
+                            <span class="stat-sub" id="stat-today-items">0 items</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon pending">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-pending-requests">0</h4>
+                            <p>Pending Requests</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon upcoming">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="23,6 13.5,15.5 8.5,10.5 1,18"></polyline>
+                                <polyline points="17,6 23,6 23,12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-upcoming-requests">0</h4>
+                            <p>Upcoming (7d)</p>
+                            <span class="stat-sub" id="stat-upcoming-qty">0 qty</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card clickable" id="stat-low-stock-card">
+                        <div class="stat-icon low-stock">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-low-stock">0</h4>
+                            <p>Low Stock</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card" id="stat-overdue-card">
+                        <div class="stat-icon overdue">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-overdue-count">0</h4>
+                            <p>Overdue Returns</p>
+                            <span class="stat-sub" id="stat-overdue-qty">0 qty</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Most Reserved Equipment -->
+                <div class="most-reserved-section" id="most-reserved-section">
+                    <h5 class="section-label">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+                        Most Reserved Equipment
+                    </h5>
+                    <div class="most-reserved-list" id="most-reserved-list">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Table View -->
+            <div id="equipment-table-view">
+            <div class="table-responsive">
+                <table class="table" id="equipment-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Total Qty</th>
+                            <th>Available</th>
+                            <th>Borrowed</th>
+                            <th>Damaged</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equipment-table-body">
+                        <!-- Equipment will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="table-pagination" id="equipment-pagination">
+                <!-- Pagination will be loaded here -->
+            </div>
+            </div><!-- /equipment-table-view -->
+
+            <!-- Calendar View (hidden by default) -->
+            <div id="equipment-calendar-view" class="hidden">
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="btn btn-icon" id="eq-cal-prev" title="Previous month">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15,18 9,12 15,6"></polyline>
+                            </svg>
+                        </button>
+                        <div class="calendar-title-group">
+                            <h4 id="eq-cal-month-label">February 2026</h4>
+                            <button class="cal-today-btn" id="eq-cal-today">Today</button>
+                        </div>
+                        <button class="btn btn-icon" id="eq-cal-next" title="Next month">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9,18 15,12 9,6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="calendar-weekday-headers">
+                        <div class="cal-wday-header">Sun</div>
+                        <div class="cal-wday-header">Mon</div>
+                        <div class="cal-wday-header">Tue</div>
+                        <div class="cal-wday-header">Wed</div>
+                        <div class="cal-wday-header">Thu</div>
+                        <div class="cal-wday-header">Fri</div>
+                        <div class="cal-wday-header">Sat</div>
+                    </div>
+
+                    <div class="calendar-grid" id="eq-cal-grid">
+                        <!-- Month day cells rendered by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ── Filter Bar ───────────────────────────── */
+.equipment-page .filter-bar {
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.equipment-page .filter-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.equipment-page .search-box {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.equipment-page .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.equipment-page .search-input {
+    width: 100%;
+    padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.equipment-page .search-input:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+    box-shadow: 0 0 0 3px rgba(128,0,0,0.08);
+}
+
+.equipment-page .filter-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.equipment-page .filter-select-control {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    color: #374151;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    min-width: 130px;
+}
+
+.equipment-page .filter-select-control:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+}
+
+.equipment-page .filter-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.equipment-page .results-count {
+    font-size: 0.825rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.equipment-page .clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.7rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.equipment-page .clear-filters-btn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+.equipment-page .active-filters {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    min-height: 0;
+}
+
+.equipment-page .active-filters:empty {
+    display: none;
+}
+
+.equipment-page .filter-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 99px;
+    font-size: 0.775rem;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.equipment-page .filter-tag-label {
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.equipment-page .filter-tag-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    transition: color 0.15s;
+    line-height: 1;
+}
+
+.equipment-page .filter-tag-remove:hover {
+    color: #dc2626;
+}
+
+/* ── Stats Cards ──────────────────────────── */
+.equipment-page .equipment-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.equipment-page .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.equipment-page .stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.equipment-page .stat-icon.total { background: #6366f1; }
+.equipment-page .stat-icon.available { background: #10b981; }
+.equipment-page .stat-icon.borrowed { background: #f59e0b; }
+.equipment-page .stat-icon.damaged { background: #ef4444; }
+.equipment-page .stat-icon.utilization { background: #8b5cf6; }
+.equipment-page .stat-icon.today-res { background: #3b82f6; }
+.equipment-page .stat-icon.pending { background: #f59e0b; }
+.equipment-page .stat-icon.upcoming { background: #06b6d4; }
+.equipment-page .stat-icon.low-stock { background: #f97316; }
+.equipment-page .stat-icon.overdue { background: #dc2626; }
+
+.equipment-page .stat-info h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.equipment-page .stat-info p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.8rem;
+}
+
+.equipment-page .stat-sub {
+    font-size: 0.7rem;
+    color: #9ca3af;
+    margin-top: 1px;
+    display: block;
+}
+
+.equipment-page .stat-card.clickable { cursor: pointer; transition: all 0.2s; }
+.equipment-page .stat-card.clickable:hover { border-color: var(--red-color, #c10305); background: #fef2f2; }
+
+.equipment-page .stat-card.alert { border-color: #fca5a5; background: #fef2f2; }
+.equipment-page .stat-card.alert .stat-info h4 { color: #dc2626; }
+
+/* ── Most Reserved Section ───────────────── */
+.equipment-page .equipment-stats-dashboard { margin-bottom: 1.5rem; }
+
+.equipment-page .most-reserved-section {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+}
+
+.equipment-page .section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 0.6rem 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.equipment-page .most-reserved-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.equipment-page .most-reserved-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #374151;
+}
+
+.equipment-page .most-reserved-item .rank {
+    font-weight: 700;
+    color: #9ca3af;
+    font-size: 0.7rem;
+    min-width: 16px;
+}
+
+.equipment-page .most-reserved-item .name {
+    font-weight: 500;
+}
+
+.equipment-page .most-reserved-item .count {
+    font-weight: 600;
+    color: #6366f1;
+    margin-left: auto;
+    font-size: 0.75rem;
+    background: #eef2ff;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+/* ── Table ────────────────────────────────── */
+.equipment-page .table-responsive {
+    overflow-x: auto;
+}
+
+.equipment-page .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.equipment-page .table th,
+.equipment-page .table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.equipment-page .table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+}
+
+.equipment-page .table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.equipment-page .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.equipment-page .status-badge.available { background: #d1fae5; color: #065f46; }
+.equipment-page .status-badge.borrowed { background: #fef3c7; color: #92400e; }
+.equipment-page .status-badge.damaged { background: #fee2e2; color: #991b1b; }
+.equipment-page .status-badge.unavailable { background: #f3f4f6; color: #6b7280; }
+
+.equipment-page .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.equipment-page .btn-icon {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.equipment-page .btn-icon:hover { background: #f3f4f6; }
+.equipment-page .btn-icon.edit { color: #6366f1; }
+.equipment-page .btn-icon.delete { color: #ef4444; }
+
+/* ── Pagination ───────────────────────────── */
+.equipment-page .table-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    margin-top: 0.5rem;
+}
+
+.equipment-page .pagination-info { color: #6b7280; font-size: 0.85rem; }
+
+.equipment-page .pagination-controls { display: flex; gap: 0.5rem; }
+
+.equipment-page .pagination-btn {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+}
+
+.equipment-page .pagination-btn:hover:not(:disabled) { background: #f9fafb; }
+.equipment-page .pagination-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.equipment-page .pagination-btn.active { background: var(--red-color); color: white; border-color: var(--red-color); }
+
+/* ── View Toggle Tabs (matches schedule page) ── */
+.equipment-page .equipment-view-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1rem;
+    background: #f3f4f6;
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+}
+
+.equipment-page .view-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.equipment-page .view-tab:hover {
+    color: #374151;
+    background: rgba(255,255,255,0.5);
+}
+
+.equipment-page .view-tab.active {
+    background: white;
+    color: var(--red-color, #c10305);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.equipment-page .hidden { display: none; }
+
+/* ── Calendar View (matches schedule page) ── */
+.equipment-page .calendar-container {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+}
+
+.equipment-page .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    background: #f8f9fb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.equipment-page .calendar-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.equipment-page .calendar-header h4 {
+    margin: 0;
+    color: #374151;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.equipment-page .cal-today-btn {
+    padding: 0.3rem 0.75rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.equipment-page .cal-today-btn:hover {
+    background: var(--red-color, #c10305);
+    color: white;
+    border-color: var(--red-color, #c10305);
+}
+
+.equipment-page .calendar-weekday-headers {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.equipment-page .cal-wday-header {
+    padding: 0.6rem 0.5rem;
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #6b7280;
+    background: #f9fafb;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.equipment-page .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    min-height: 0;
+}
+
+.equipment-page .cal-day-cell {
+    min-height: 90px;
+    border-right: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    padding: 0.45rem 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    position: relative;
+}
+
+.equipment-page .cal-day-cell:nth-child(7n) { border-right: none; }
+
+.equipment-page .cal-day-cell:hover { background: #f0f4ff; }
+
+.equipment-page .cal-day-cell.outside {
+    background: #fafafa;
+    color: #d1d5db;
+    cursor: default;
+}
+
+.equipment-page .cal-day-cell.outside:hover { background: #fafafa; }
+
+.equipment-page .cal-day-cell.today { background: #fef2f2; }
+.equipment-page .cal-day-cell.today:hover { background: #fee2e2; }
+
+.equipment-page .cal-day-number {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.35rem;
+}
+
+.equipment-page .cal-day-cell.outside .cal-day-number { color: #d1d5db; }
+
+.equipment-page .cal-day-cell.today .cal-day-number {
+    background: var(--red-color, #c10305);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.equipment-page .cal-usage-dots {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.equipment-page .cal-usage-pill {
+    font-size: 0.68rem;
+    padding: 2px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.35;
+    font-weight: 500;
+}
+
+.equipment-page .cal-usage-pill.reserved { background: #dbeafe; color: #1e40af; }
+.equipment-page .cal-usage-pill.pending { background: #fef3c7; color: #92400e; }
+
+/* ── Day Detail Modal (matches schedule page) ── */
+.equipment-page .cal-day-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 1050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: eqCalFadeIn 0.15s ease;
+}
+
+@keyframes eqCalFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.equipment-page .cal-day-modal {
+    background: white;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 520px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    animation: eqCalSlideUp 0.2s ease;
+}
+
+@keyframes eqCalSlideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.equipment-page .cal-day-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8f9fb;
+}
+
+.equipment-page .cal-day-modal-header h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.equipment-page .cal-day-modal-close {
+    background: none;
+    border: none;
+    padding: 0.35rem;
+    cursor: pointer;
+    color: #9ca3af;
+    border-radius: 6px;
+    display: flex;
+    transition: all 0.15s;
+}
+
+.equipment-page .cal-day-modal-close:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.equipment-page .cal-day-modal-body {
+    padding: 1rem 1.25rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.equipment-page .eq-detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.equipment-page .eq-detail-table th,
+.equipment-page .eq-detail-table td {
+    padding: 0.6rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.equipment-page .eq-detail-table th {
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.equipment-page .eq-summary-pills {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.equipment-page .eq-summary-pill {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.equipment-page .eq-summary-pill.reserved { background: #dbeafe; color: #1e40af; }
+.equipment-page .eq-summary-pill.pending { background: #fef3c7; color: #92400e; }
+
+.equipment-page .eq-no-usage {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 768px) {
+    .equipment-page .filter-bar-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .equipment-page .search-box { min-width: unset; }
+
+    .equipment-page .filter-controls { flex-direction: column; }
+
+    .equipment-page .filter-select-control { min-width: unset; width: 100%; }
+
+    .equipment-page .filter-meta {
+        margin-left: 0;
+        justify-content: space-between;
+    }
+
+    .equipment-page .equipment-view-toggle { width: 100%; }
+    .equipment-page .view-tab { flex: 1; justify-content: center; font-size: 0.8rem; padding: 0.45rem 0.5rem; }
+
+    .equipment-page .equipment-stats { grid-template-columns: repeat(2, 1fr); }
+
+    .equipment-page .table { font-size: 0.8rem; }
+    .equipment-page .table th,
+    .equipment-page .table td { padding: 0.5rem; }
+
+    .equipment-page .calendar-grid { grid-template-columns: repeat(7, 1fr); }
+    .equipment-page .cal-day-cell { min-height: 65px; padding: 0.3rem; }
+    .equipment-page .cal-day-number { font-size: 0.75rem; }
+    .equipment-page .cal-usage-pill { font-size: 0.6rem; }
+    .equipment-page .calendar-header { flex-direction: column; gap: 0.5rem; }
+    .equipment-page .cal-wday-header { font-size: 0.7rem; padding: 0.4rem 0.25rem; }
+}
+</style>

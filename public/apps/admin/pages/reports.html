@@ -1,0 +1,813 @@
+<div class="reports-page fade-in">
+    <div class="card">
+        <div class="cardHeader">
+            <h3>Reports</h3>
+            <div id="academic-context-filter"></div>
+        </div>
+
+        <div class="cardBody">
+            <!-- Tab Toggle -->
+            <div class="report-view-toggle">
+                <button class="view-tab active" data-report-tab="requests">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14,2 14,8 20,8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    Requests
+                </button>
+                <button class="view-tab" data-report-tab="schedule">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Schedule
+                </button>
+                <button class="view-tab" data-report-tab="equipment">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                    Equipment
+                </button>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB 1: Requests -->
+            <!-- ============================================================ -->
+            <div class="report-tab-panel" id="tab-requests">
+                <!-- Summary -->
+                <div class="reports-summary">
+                    <div class="summary-card">
+                        <div class="stat-icon total">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14,2 14,8 20,8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-total-requests">-</h4>
+                            <p>Total Requests</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon approved">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20,6 9,17 4,12"></polyline></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-active-requests">-</h4>
+                            <p>Active / Approved</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon returned">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22,4 12,14.01 9,11.01"></polyline></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-returned">-</h4>
+                            <p>Returned</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon equipment-stat">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-total-equipment">-</h4>
+                            <p>Total Equipment</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="filter-bar">
+                    <div class="filter-bar-row">
+                        <div class="search-box">
+                            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="req-search" class="search-input" placeholder="Search by name, location, equipment...">
+                        </div>
+                        <div class="filter-controls">
+                            <select id="req-status-filter" class="filter-select-control">
+                                <option value="">All Status</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Borrowed">Borrowed</option>
+                                <option value="Returned">Returned</option>
+                                <option value="Declined">Declined</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <select id="req-room-filter" class="filter-select-control">
+                                <option value="">All Rooms</option>
+                            </select>
+                            <select id="req-program-filter" class="filter-select-control">
+                                <option value="">All Program Codes</option>
+                            </select>
+                            <select id="req-year-filter" class="filter-select-control">
+                                <option value="">All Year Levels</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-bar-row">
+                        <div class="date-range-group">
+                            <label class="date-range-label">Date range:</label>
+                            <input type="date" id="req-date-from" class="filter-date" title="From date">
+                            <span class="date-range-sep">to</span>
+                            <input type="date" id="req-date-to" class="filter-date" title="To date">
+                        </div>
+                        <div class="filter-meta">
+                            <span id="req-results-count" class="results-count"></span>
+                            <button class="clear-filters-btn" id="req-clear-filters" title="Clear all filters">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export -->
+                <div class="export-bar">
+                    <span class="export-label">Export:</span>
+                    <!--
+                    <button class="export-btn csv" id="req-export-csv" title="Export as CSV">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        CSV
+                    </button>
+                    <button class="export-btn excel" id="req-export-excel" title="Export as Excel">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Excel
+                    </button>
+                    -->
+                    <button class="export-btn pdf" id="req-export-pdf" title="Export as PDF">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        PDF
+                    </button>
+                    <button class="export-btn print" id="req-print" title="Print">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        Print
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table" id="req-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Room</th>
+                                <th>Item/s</th>
+                                <th>Requester Name</th>
+                                <th>Program &amp; Year</th>
+                                <th>Faculty-In-Charge</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="req-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB 2: Schedule -->
+            <!-- ============================================================ -->
+            <div class="report-tab-panel hidden" id="tab-schedule">
+                <!-- Summary -->
+                <div class="reports-summary">
+                    <div class="summary-card">
+                        <div class="stat-icon total">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-total-schedules">-</h4>
+                            <p>Total Schedules</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon faculty">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-total-faculty-sched">-</h4>
+                            <p>Faculty Assigned</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon rooms">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-total-rooms">-</h4>
+                            <p>Rooms Used</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon onetime">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-onetime-schedules">-</h4>
+                            <p>One-Time</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="filter-bar">
+                    <div class="filter-bar-row">
+                        <div class="search-box">
+                            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="sched-search" class="search-input" placeholder="Search by faculty, room, subject...">
+                        </div>
+                        <div class="filter-controls">
+                            <select id="sched-day-filter" class="filter-select-control">
+                                <option value="">All Days</option>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                                <option value="Sunday">Sunday</option>
+                            </select>
+                            <select id="sched-room-filter" class="filter-select-control">
+                                <option value="">All Rooms</option>
+                            </select>
+                            <select id="sched-program-filter" class="filter-select-control">
+                                <option value="">All Program Codes</option>
+                            </select>
+                            <select id="sched-year-filter" class="filter-select-control">
+                                <option value="">All Year Levels</option>
+                            </select>
+                            <select id="sched-type-filter" class="filter-select-control">
+                                <option value="">All Types</option>
+                                <option value="Recurring">Recurring</option>
+                                <option value="One-Time">One-Time</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-bar-row">
+                        <div class="date-range-group">
+                            <label class="date-range-label">Date range:</label>
+                            <input type="date" id="sched-date-from" class="filter-date" title="From date">
+                            <span class="date-range-sep">to</span>
+                            <input type="date" id="sched-date-to" class="filter-date" title="To date">
+                        </div>
+                        <div class="filter-meta">
+                            <span id="sched-results-count" class="results-count"></span>
+                            <button class="clear-filters-btn" id="sched-clear-filters" title="Clear all filters">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export -->
+                <div class="export-bar">
+                    <span class="export-label">Export:</span>
+                    <!--
+                    <button class="export-btn csv" id="sched-export-csv" title="Export as CSV">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        CSV
+                    </button>
+                    <button class="export-btn excel" id="sched-export-excel" title="Export as Excel">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Excel
+                    </button>
+                    -->
+                    <button class="export-btn pdf" id="sched-export-pdf" title="Export as PDF">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        PDF
+                    </button>
+                    <button class="export-btn print" id="sched-print" title="Print">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        Print
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table" id="sched-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Room</th>
+                                <th>Subject</th>
+                                <th>Faculty</th>
+                                <th>Program &amp; Year</th>
+                                <th>Time</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sched-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- TAB 3: Equipment -->
+            <!-- ============================================================ -->
+            <div class="report-tab-panel hidden" id="tab-equipment">
+                <!-- Summary -->
+                <div class="reports-summary">
+                    <div class="summary-card">
+                        <div class="stat-icon total">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-eq-total">-</h4>
+                            <p>Unique Items</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon available">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22,4 12,14.01 9,11.01"></polyline></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-eq-available">-</h4>
+                            <p id="stat-eq-available-label">Available Qty</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon borrowed">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12,6 12,12 16,14"></polyline></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-eq-borrowed">-</h4>
+                            <p id="stat-eq-borrowed-label">Borrowed Qty</p>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="stat-icon damaged">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <div class="stat-info">
+                            <h4 id="stat-eq-damaged">-</h4>
+                            <p id="stat-eq-damaged-label">Damaged Qty</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="filter-bar">
+                    <div class="filter-bar-row">
+                        <div class="search-box">
+                            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                            <input type="text" id="eq-search" class="search-input" placeholder="Search equipment name...">
+                        </div>
+                    </div>
+                    <div class="filter-bar-row">
+                        <div class="date-range-group">
+                            <label class="date-range-label">Date range:</label>
+                            <input type="date" id="eq-date-from" class="filter-date" title="From date">
+                            <span class="date-range-sep">to</span>
+                            <input type="date" id="eq-date-to" class="filter-date" title="To date">
+                        </div>
+                        <div class="filter-meta">
+                            <span id="eq-results-count" class="results-count"></span>
+                            <button class="clear-filters-btn" id="eq-clear-filters" title="Clear all filters">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                    <div id="eq-date-hint" class="filter-hint" style="display:none;">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Borrowed &amp; Returned columns show usage within the selected date range</span>
+                    </div>
+                </div>
+
+                <!-- Export -->
+                <div class="export-bar">
+                    <span class="export-label">Export:</span>
+                    <!--
+                    <button class="export-btn csv" id="eq-export-csv" title="Export as CSV">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        CSV
+                    </button>
+                    <button class="export-btn excel" id="eq-export-excel" title="Export as Excel">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        Excel
+                    </button>
+                    -->
+                    <button class="export-btn pdf" id="eq-export-pdf" title="Export as PDF">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7,10 12,15 17,10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        PDF
+                    </button>
+                    <button class="export-btn print" id="eq-print" title="Print">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 6,2 18,2 18,9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                        Print
+                    </button>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table" id="eq-table">
+                        <thead id="eq-table-head">
+                            <tr>
+                                <th>Name</th>
+                                <th>Total Qty</th>
+                                <th>Available</th>
+                                <th>Borrowed</th>
+                                <th>Damaged</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eq-table-body">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ── Tab Toggle (matches equipment page) ──── */
+.reports-page .report-view-toggle {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1.25rem;
+    background: #f3f4f6;
+    border-radius: 10px;
+    padding: 4px;
+    width: fit-content;
+}
+
+.reports-page .view-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.reports-page .view-tab:hover {
+    color: #374151;
+    background: rgba(255,255,255,0.5);
+}
+
+.reports-page .view-tab.active {
+    background: white;
+    color: var(--red-color, #c10305);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.reports-page .report-tab-panel.hidden { display: none; }
+
+/* ── Summary Stats ────────────────────────── */
+.reports-page .reports-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.reports-page .summary-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.reports-page .stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.reports-page .stat-icon.total          { background: #6366f1; }
+.reports-page .stat-icon.approved       { background: #10b981; }
+.reports-page .stat-icon.returned       { background: #3b82f6; }
+.reports-page .stat-icon.equipment-stat { background: #8b5cf6; }
+.reports-page .stat-icon.faculty        { background: #8b5cf6; }
+.reports-page .stat-icon.rooms          { background: #06b6d4; }
+.reports-page .stat-icon.onetime        { background: #f59e0b; }
+.reports-page .stat-icon.available      { background: #10b981; }
+.reports-page .stat-icon.borrowed       { background: #f59e0b; }
+.reports-page .stat-icon.damaged        { background: #ef4444; }
+
+.reports-page .stat-info h4 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #374151;
+}
+
+.reports-page .stat-info p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+/* ── Filter Bar ───────────────────────────── */
+.reports-page .filter-bar {
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.reports-page .filter-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.reports-page .search-box {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+}
+
+.reports-page .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.reports-page .search-input {
+    width: 100%;
+    padding: 0.55rem 0.75rem 0.55rem 2.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.reports-page .search-input:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+    box-shadow: 0 0 0 3px rgba(128,0,0,0.08);
+}
+
+.reports-page .filter-controls {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.reports-page .filter-select-control {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    background: white;
+    cursor: pointer;
+    color: #374151;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    min-width: 130px;
+}
+
+.reports-page .filter-select-control:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+}
+
+.reports-page .date-range-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.reports-page .date-range-label {
+    font-size: 0.825rem;
+    color: #6b7280;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.reports-page .filter-date {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.825rem;
+    background: white;
+    font-family: inherit;
+    color: #374151;
+    transition: border-color 0.2s;
+    max-width: 150px;
+}
+
+.reports-page .filter-date:focus {
+    outline: none;
+    border-color: var(--red-color, #c10305);
+}
+
+.reports-page .date-range-sep {
+    color: #9ca3af;
+    font-size: 0.825rem;
+}
+
+.reports-page .filter-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-left: auto;
+}
+
+.reports-page .results-count {
+    font-size: 0.825rem;
+    color: #6b7280;
+    white-space: nowrap;
+}
+
+.reports-page .clear-filters-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.7rem;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.reports-page .clear-filters-btn:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+}
+
+/* ── Export Bar ────────────────────────────── */
+.reports-page .export-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.reports-page .export-label {
+    font-size: 0.825rem;
+    color: #6b7280;
+    font-weight: 500;
+    margin-right: 0.25rem;
+}
+
+.reports-page .export-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    color: #374151;
+}
+
+.reports-page .export-btn:hover {
+    border-color: #9ca3af;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.reports-page .export-btn.csv:hover   { background: #f0fdf4; border-color: #86efac; color: #166534; }
+.reports-page .export-btn.excel:hover { background: #eff6ff; border-color: #93c5fd; color: #1e40af; }
+.reports-page .export-btn.pdf:hover   { background: #fef2f2; border-color: #fca5a5; color: #991b1b; }
+.reports-page .export-btn.print:hover { background: #f5f3ff; border-color: #c4b5fd; color: #5b21b6; }
+
+/* ── Table ────────────────────────────────── */
+.reports-page .table-responsive { overflow-x: auto; }
+
+.reports-page .table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.reports-page .table th,
+.reports-page .table td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+}
+
+.reports-page .table th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.reports-page .table tbody tr:hover { background: #f9fafb; }
+
+.reports-page .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.reports-page .status-badge.status-pending   { background: #fef3c7; color: #92400e; }
+.reports-page .status-badge.status-approved  { background: #d1fae5; color: #065f46; }
+.reports-page .status-badge.status-borrowed  { background: #fce7f3; color: #9d174d; }
+.reports-page .status-badge.status-returned  { background: #dbeafe; color: #1e40af; }
+.reports-page .status-badge.status-declined  { background: #fee2e2; color: #991b1b; }
+.reports-page .status-badge.status-cancelled { background: #f3f4f6; color: #6b7280; }
+.reports-page .status-badge.status-available   { background: #d1fae5; color: #065f46; }
+.reports-page .status-badge.status-damaged     { background: #fee2e2; color: #991b1b; }
+.reports-page .status-badge.status-unavailable { background: #f3f4f6; color: #6b7280; }
+
+.reports-page .type-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.reports-page .type-badge.recurring { background: #dbeafe; color: #1e40af; }
+.reports-page .type-badge.one-time  { background: #fef3c7; color: #92400e; }
+
+.reports-page .filter-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    color: #1e40af;
+}
+
+.reports-page .no-data-row td {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #9ca3af;
+}
+
+/* ── Responsive ───────────────────────────── */
+@media (max-width: 768px) {
+    .reports-page .report-view-toggle {
+        width: 100%;
+    }
+    .reports-page .view-tab {
+        flex: 1;
+        justify-content: center;
+        padding: 0.5rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    .reports-page .reports-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .reports-page .filter-bar-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .reports-page .search-box { min-width: unset; }
+    .reports-page .filter-controls { flex-direction: column; }
+    .reports-page .filter-select-control { min-width: unset; width: 100%; }
+    .reports-page .date-range-group { flex-wrap: wrap; }
+    .reports-page .filter-date { max-width: unset; flex: 1; }
+    .reports-page .filter-meta { margin-left: 0; justify-content: space-between; }
+    .reports-page .export-bar { flex-wrap: wrap; }
+    .reports-page .table { font-size: 0.8rem; }
+    .reports-page .table th,
+    .reports-page .table td { padding: 0.5rem; }
+}
+
+/* ── Print ────────────────────────────────── */
+@media print {
+    .reports-page .filter-bar,
+    .reports-page .export-bar,
+    .reports-page .cardHeader,
+    .reports-page .report-view-toggle {
+        display: none !important;
+    }
+    .reports-page .report-tab-panel.hidden { display: none !important; }
+    .reports-page .reports-summary { margin-bottom: 1rem; }
+    .reports-page .table th,
+    .reports-page .table td {
+        padding: 0.4rem 0.5rem;
+        border: 1px solid #000;
+        font-size: 11px;
+    }
+}
+</style>

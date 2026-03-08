@@ -1,0 +1,140 @@
+<div class="view-requests-page fade-in">
+    <div class="card">
+        <div class="cardHeader">
+            <h3>My Borrow Requests</h3>
+            <div class="header-actions">
+                <button class="btn btn-primary" onclick="window.studentApp.loadPage('request')">
+                    + New Request
+                </button>
+            </div>
+        </div>
+
+        <div class="tableWrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date Filed</th>
+                        <th>Room</th>
+                        <th>Equipment</th>
+                        <th>Date Needed</th>
+                        <th>Time</th>
+                        <th>Note</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="my-requests-tbody">
+                    <tr>
+                        <td colspan="8" style="text-align:center;">Loading requests...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-pagination" id="my-requests-pagination"></div>
+    </div>
+</div>
+
+<style>
+.view-requests-page .table-pagination {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.view-requests-page .request-actions {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.view-requests-page .request-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    font-size: 0.8rem;
+    color: #991b1b;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-requests-page .request-action-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.view-requests-page .request-action-btn:hover:not(:disabled) {
+    background: #fef2f2;
+    border-color: #fecaca;
+}
+
+.view-requests-page .request-action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.view-requests-page .request-action-empty {
+    color: #9ca3af;
+    font-size: 0.8rem;
+}
+
+.view-requests-page .pagination-info {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.view-requests-page .pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.view-requests-page .pagination-btn {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #d1d5db;
+    background: #fff;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    color: #374151;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    transition: all 0.2s;
+}
+
+.view-requests-page .pagination-btn:hover:not(:disabled) {
+    background: #f9fafb;
+}
+
+.view-requests-page .pagination-btn:disabled,
+.view-requests-page .pagination-btn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.view-requests-page .pagination-btn.active {
+    background: var(--red-color, #b91c1c);
+    border-color: var(--red-color, #b91c1c);
+    color: #fff;
+}
+
+@media (max-width: 640px) {
+    .view-requests-page .table-pagination {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>

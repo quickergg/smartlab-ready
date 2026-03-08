@@ -1,0 +1,312 @@
+<div class="academic-directory-page fade-in">
+  <div class="page-header">
+    <div>
+      <p class="eyebrow">Reference Data</p>
+      <h2>Academic Directory</h2>
+      <p class="subtitle">Manage the core campus datasets used across requests, scheduling, and inventory workflows.</p>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card" data-summary="buildings">
+      <span class="label">Buildings</span>
+      <strong id="summary-buildings">0</strong>
+    </div>
+    <div class="summary-card" data-summary="rooms">
+      <span class="label">Rooms</span>
+      <strong id="summary-rooms">0</strong>
+    </div>
+    <div class="summary-card" data-summary="programs">
+      <span class="label">Programs</span>
+      <strong id="summary-programs">0</strong>
+    </div>
+    <div class="summary-card" data-summary="subjects">
+      <span class="label">Subjects</span>
+      <strong id="summary-subjects">0</strong>
+    </div>
+    <div class="summary-card" data-summary="departments">
+      <span class="label">Departments</span>
+      <strong id="summary-departments">0</strong>
+    </div>
+  </div>
+
+  <div class="directory-section" id="section-buildings">
+    <div class="section-head">
+      <div>
+        <h3>Buildings</h3>
+        <p>Canonical list of campus buildings used by rooms and requests.</p>
+      </div>
+      <button class="btn btn-primary" data-action="add-entity" data-entity="building">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Building
+      </button>
+    </div>
+    <div class="directory-table">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Rooms</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table-buildings">
+          <tr><td colspan="4" class="placeholder">Loading buildings...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="directory-section" id="section-rooms">
+    <div class="section-head">
+      <div>
+        <h3>Rooms</h3>
+        <p>Instructional spaces referencing building assignments.</p>
+      </div>
+      <button class="btn btn-primary" data-action="add-entity" data-entity="room">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Room
+      </button>
+    </div>
+    <div class="directory-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Room No.</th>
+            <th>Name</th>
+            <th>Building</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="table-rooms">
+          <tr><td colspan="4" class="placeholder">Loading rooms...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="directory-section" id="section-programs">
+      <div class="section-head">
+        <div>
+          <h3>Programs</h3>
+          <p>Used in requests, schedules, and reports.</p>
+        </div>
+        <button class="btn btn-primary" data-action="add-entity" data-entity="program">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Program
+        </button>
+      </div>
+      <div class="directory-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-programs">
+            <tr><td colspan="3" class="placeholder">Loading programs...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <div class="directory-section" id="section-subjects">
+      <div class="section-head">
+        <div>
+          <h3>Subjects</h3>
+          <p>Subject catalog for schedules and borrow requests.</p>
+        </div>
+        <button class="btn btn-primary" data-action="add-entity" data-entity="subject">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Subject
+        </button>
+      </div>
+      <div class="directory-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-subjects">
+            <tr><td colspan="3" class="placeholder">Loading subjects...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <div class="directory-section" id="section-departments">
+      <div class="section-head">
+        <div>
+          <h3>Departments</h3>
+          <p>Faculty department references.</p>
+        </div>
+        <button class="btn btn-primary" data-action="add-entity" data-entity="department">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Department
+        </button>
+      </div>
+      <div class="directory-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-departments">
+            <tr><td colspan="3" class="placeholder">Loading departments...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+
+<style>
+.academic-directory-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.academic-directory-page .eyebrow {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+}
+.academic-directory-page .subtitle {
+  color: #6b7280;
+}
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+.summary-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.summary-card .label {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+.summary-card strong {
+  font-size: 1.75rem;
+  color: var(--primary-color, #800000);
+}
+.directory-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+  padding: 1.25rem;
+}
+.section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.section-head h3 {
+  margin: 0;
+}
+.section-head p {
+  margin: 0.25rem 0 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+.section-head .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.section-head .btn svg {
+  pointer-events: none;
+}
+.directory-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.directory-table th,
+.directory-table td {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+}
+.directory-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+}
+.directory-table .placeholder {
+  text-align: center;
+  color: #9ca3af;
+}
+.directory-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.directory-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+.directory-list li:last-child {
+  border-bottom: none;
+}
+.directory-list .code {
+  font-weight: 600;
+  color: var(--primary-color, #800000);
+}
+.academic-directory-page .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+.academic-directory-page .btn-icon svg {
+  pointer-events: none;
+}
+.academic-directory-page .btn-icon.edit {
+  color: #3b82f6;
+}
+.btn.btn-light {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  color: #1f2937;
+  border-radius: 8px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.9rem;
+}
+</style>

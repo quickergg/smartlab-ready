@@ -1,0 +1,297 @@
+<div class="dashboard-page fade-in">
+    <!-- System Overview -->
+    <div class="card">
+        <div class="cardHeader">
+            <h3>System Overview</h3>
+            <div class="cardHeader-actions">
+                <div id="academic-context-filter"></div>
+                <button type="button" class="btn btn-secondary btn-sm" data-dashboard-refresh onclick="AdminApp.refreshDashboard()">
+                    <i class="fas fa-sync-alt refresh-icon"></i> Refresh
+                </button>
+            </div>
+        </div>
+        
+        <div class="analytics-grid">
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-content">
+                    <h4>Total Users</h4>
+                    <p class="stats-number" id="count-totalUsers">-</p>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="stats-content">
+                    <h4>Students</h4>
+                    <p class="stats-number" id="count-studentCount">-</p>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="stats-content">
+                    <h4>Faculty</h4>
+                    <p class="stats-number" id="count-facultyCount">-</p>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stats-content">
+                    <h4>Pending Requests</h4>
+                    <p class="stats-number red-text" id="count-pendingCount">-</p>
+                </div>
+            </div>
+            
+            <div class="stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <div class="stats-content">
+                    <h4>Active Labs Today</h4>
+                    <p class="stats-number" id="count-activeLabsToday">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card">
+        <div class="cardHeader">
+            <h3>Quick Actions</h3>
+        </div>
+        
+        <div class="quick-actions-grid">
+            <button class="btn btn-primary" onclick="AdminApp.showAddUserModal()">
+                <i class="fas fa-user-plus"></i> 
+                <span>Add New User</span>
+            </button>
+            
+            <button class="btn btn-info" onclick="AdminApp.openPendingRequests()">
+                <i class="fas fa-clock"></i> 
+                <span>Review Pending Requests</span>
+            </button>
+            
+            <button class="btn btn-secondary" onclick="AdminApp.showAddScheduleModal()">
+                <i class="fas fa-calendar-plus"></i> 
+                <span>Add Lab Schedule</span>
+            </button>
+            
+            <button class="btn btn-warning" onclick="AdminApp.navigateToPage('equipment')">
+                <i class="fas fa-tools"></i> 
+                <span>Equipment Status</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card">
+        <div class="cardHeader">
+            <h3>Recent Activity</h3>
+            <button class="btn btn-link btn-sm" onclick="AdminApp.navigateToPage('reports')">
+                View All <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+        
+        <div class="activity-feed" id="recent-activity">
+            <div class="activity-item activity-item--loading">
+                <div class="activity-content">
+                    <div class="activity-loading">Loading recent activity...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.dashboard-page .analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.dashboard-page .stats-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.dashboard-page .stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px gold;
+}
+
+.dashboard-page .btn.is-refreshing {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.dashboard-page .refresh-icon.spinning {
+    animation: dashboard-spin 0.8s linear infinite;
+}
+
+@keyframes dashboard-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.dashboard-page .stats-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.dashboard-page .stats-card:nth-child(1) .stats-icon { background: linear-gradient(135deg, #800000 0%, #5c0000 100%); }
+.dashboard-page .stats-card:nth-child(2) .stats-icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.dashboard-page .stats-card:nth-child(3) .stats-icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.dashboard-page .stats-card:nth-child(4) .stats-icon { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.dashboard-page .stats-card:nth-child(5) .stats-icon { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+.dashboard-page .stats-content h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.dashboard-page .stats-number {
+    margin: 0.25rem 0 0 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.dashboard-page .quick-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.dashboard-page .quick-actions-grid .btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    min-height: 120px;
+}
+
+.dashboard-page .quick-actions-grid .btn i {
+    font-size: 2rem;
+}
+
+.dashboard-page .quick-actions-grid .btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-page .activity-feed {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.dashboard-page .activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.2s;
+}
+
+.dashboard-page .activity-item:hover {
+    background: #f9fafb;
+}
+
+.dashboard-page .activity-item:last-child {
+    border-bottom: none;
+}
+
+.dashboard-page .activity-item--loading,
+.dashboard-page .activity-item--empty {
+    justify-content: center;
+    text-align: center;
+}
+
+.dashboard-page .activity-loading {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.dashboard-page .activity-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    flex-shrink: 0;
+}
+
+.dashboard-page .activity-icon--user { background: #dbeafe; color: #1e40af; }
+.dashboard-page .activity-icon--request { background: #fef3c7; color: #92400e; }
+.dashboard-page .activity-icon--approved { background: #dcfce7; color: #15803d; }
+.dashboard-page .activity-icon--rejected { background: #fee2e2; color: #b91c1c; }
+.dashboard-page .activity-icon--default { background: #e0e7ff; color: #312e81; }
+
+.dashboard-page .activity-content {
+    flex: 1;
+}
+
+.dashboard-page .activity-title {
+    margin: 0;
+    color: #374151;
+    font-weight: 600;
+}
+
+.dashboard-page .activity-meta {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+.dashboard-page .activity-item--empty .activity-title {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.text-success { color: #10b981; }
+.text-info { color: #3b82f6; }
+.text-warning { color: #f59e0b; }
+.red-text { color: #ef4444; }
+
+@media (max-width: 768px) {
+    .dashboard-page .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-page .quick-actions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
